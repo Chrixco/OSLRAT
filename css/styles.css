@@ -482,7 +482,7 @@ code {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 140px;
 }
 
 .hero__background {
@@ -1102,7 +1102,7 @@ code {
 .page-header {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: var(--color-white);
-  padding: calc(80px + var(--space-2xl)) 0 var(--space-2xl);
+  padding: calc(140px + var(--space-2xl)) 0 var(--space-2xl);
   text-align: center;
 }
 
@@ -2349,6 +2349,175 @@ code {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* ============================================================================
+   CITIES GRID
+   ============================================================================ */
+
+.cities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1px;
+  background: rgba(0, 255, 255, 0.1);
+  margin-top: var(--space-2xl);
+}
+
+.city-item {
+  background: #0a0a0a;
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.city-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--color-neon-cyan), var(--color-neon-yellow));
+  transition: height 0.5s ease;
+}
+
+.city-item:hover::before {
+  height: 100%;
+}
+
+.city-item:hover {
+  background: rgba(0, 255, 255, 0.02);
+}
+
+.city-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.city-name {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+.city-country {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.city-stat {
+  font-size: 3rem;
+  font-weight: 100;
+  color: var(--color-neon-yellow);
+  margin: 1rem 0;
+  text-shadow: 0 0 20px var(--color-neon-yellow-glow);
+}
+
+.city-description {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+
+/* ============================================================================
+   TIMELINE (SLR Projections)
+   ============================================================================ */
+
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+  max-width: 1000px;
+  margin: var(--space-2xl) auto 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--color-neon-cyan), var(--color-neon-yellow), transparent);
+}
+
+.timeline-item {
+  display: flex;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.timeline-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timeline-year {
+  flex: 1;
+  text-align: right;
+  font-size: 4rem;
+  font-weight: 100;
+  color: var(--color-neon-cyan);
+  opacity: 0.3;
+}
+
+.timeline-item:nth-child(even) .timeline-year {
+  text-align: left;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-title {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--color-neon-yellow);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-description {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--color-neon-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--color-neon-yellow);
+}
+
+@media (max-width: 768px) {
+  .timeline-item {
+    flex-direction: column !important;
+    gap: 1rem;
+  }
+
+  .timeline-year {
+    text-align: left !important;
+    font-size: 2.5rem;
+  }
+
+  .timeline-line {
+    left: 0;
+  }
+
+  .timeline-dot {
+    left: 0;
+  }
 }
 
 /* ============================================================================

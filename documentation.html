@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete documentation for OSLRAT - installation, usage, API reference, and examples">
+    <title>Documentation - OSLRAT</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-text">OSLRAT</span>
+                <span class="nav__logo-subtext">Sea-Level Rise Assessment</span>
+            </a>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+            </button>
+
+            <ul class="nav__menu" id="nav-menu">
+                <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                <li class="nav__item"><a href="about.html" class="nav__link">About</a></li>
+                <li class="nav__item"><a href="methodology.html" class="nav__link">Methodology</a></li>
+                <li class="nav__item"><a href="documentation.html" class="nav__link nav__link--active">Documentation</a></li>
+                <li class="nav__item"><a href="contact.html" class="nav__link">Contact</a></li>
+                <li class="nav__item"><a href="https://github.com/yourusername/OSLRAT" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-header__title">Documentation</h1>
+            <p class="page-header__subtitle">
+                Everything you need to get started with OSLRAT
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="docs-layout">
+                    <!-- Sidebar Navigation -->
+                    <aside class="docs-nav">
+                        <nav class="docs-nav__menu">
+                            <h3 class="docs-nav__title">Contents</h3>
+                            <ul class="docs-nav__list">
+                                <li class="docs-nav__item">
+                                    <a href="#getting-started" class="docs-nav__link">Getting Started</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#installation" class="docs-nav__link">Installation</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#quick-start" class="docs-nav__link">Quick Start</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#visualization" class="docs-nav__link">Data Visualization</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#assessment" class="docs-nav__link">Risk Assessment</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#scenarios" class="docs-nav__link">Scenario Planning</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#export" class="docs-nav__link">Export & Reports</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#api" class="docs-nav__link">API Reference</a>
+                                </li>
+                                <li class="docs-nav__item">
+                                    <a href="#troubleshooting" class="docs-nav__link">Troubleshooting</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </aside>
+
+                    <!-- Documentation Content -->
+                    <div class="docs-content">
+                        <!-- Getting Started -->
+                        <article id="getting-started" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Getting Started</h2>
+                            <p class="docs-section__text">
+                                OSLRAT is designed to be accessible to users with varying levels of
+                                technical expertise. Whether you're using the web interface or the
+                                Python library, this guide will help you get up and running quickly.
+                            </p>
+
+                            <div class="info-box info-box--info">
+                                <h4 class="info-box__title">Prerequisites</h4>
+                                <ul class="info-box__list">
+                                    <li>Python 3.8 or higher (for Python API)</li>
+                                    <li>Modern web browser (for web interface)</li>
+                                    <li>Basic understanding of sea-level rise concepts</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <!-- Installation -->
+                        <article id="installation" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Installation</h2>
+
+                            <h3 class="docs-section__subtitle">Using pip (Recommended)</h3>
+                            <p class="docs-section__text">
+                                Install OSLRAT using pip:
+                            </p>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">bash</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code>pip install oslrat</code></pre>
+                            </div>
+
+                            <h3 class="docs-section__subtitle">From Source</h3>
+                            <p class="docs-section__text">
+                                For the latest development version:
+                            </p>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">bash</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code>git clone https://github.com/yourusername/OSLRAT.git
+cd OSLRAT
+pip install -e .</code></pre>
+                            </div>
+
+                            <h3 class="docs-section__subtitle">Verify Installation</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code>import oslrat
+print(oslrat.__version__)</code></pre>
+                            </div>
+                        </article>
+
+                        <!-- Quick Start -->
+                        <article id="quick-start" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Quick Start</h2>
+                            <p class="docs-section__text">
+                                Here's a simple example to get you started with OSLRAT:
+                            </p>
+
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code>import oslrat
+
+# Initialize the assessment tool
+slr = oslrat.SeaLevelRise()
+
+# Load data for a specific location
+location = slr.load_location(lat=37.7749, lon=-122.4194)  # San Francisco
+
+# Get projections for different scenarios
+projections = location.get_projections(
+    scenarios=['SSP1-2.6', 'SSP2-4.5', 'SSP5-8.5'],
+    years=[2030, 2050, 2100]
+)
+
+# Visualize the results
+location.plot_projections(projections)
+
+# Export data
+projections.to_csv('san_francisco_slr.csv')</code></pre>
+                            </div>
+                        </article>
+
+                        <!-- Visualization -->
+                        <article id="visualization" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Data Visualization</h2>
+                            <p class="docs-section__text">
+                                OSLRAT provides multiple visualization options for different use cases.
+                            </p>
+
+                            <h3 class="docs-section__subtitle">Interactive Maps</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Create an interactive map
+map_view = oslrat.InteractiveMap(
+    center=(37.7749, -122.4194),
+    zoom=11
+)
+
+# Add sea-level rise layer
+map_view.add_slr_layer(
+    year=2100,
+    scenario='SSP5-8.5',
+    opacity=0.7
+)
+
+# Add vulnerable infrastructure
+map_view.add_infrastructure_layer()
+
+# Display the map
+map_view.show()</code></pre>
+                            </div>
+
+                            <h3 class="docs-section__subtitle">Time Series Charts</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Plot time series for multiple scenarios
+chart = oslrat.TimeSeriesChart()
+chart.plot(
+    data=projections,
+    scenarios=['SSP1-2.6', 'SSP2-4.5', 'SSP5-8.5'],
+    confidence_intervals=True,
+    style='publication'
+)
+chart.save('timeseries.png', dpi=300)</code></pre>
+                            </div>
+                        </article>
+
+                        <!-- Risk Assessment -->
+                        <article id="assessment" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Risk Assessment</h2>
+                            <p class="docs-section__text">
+                                Conduct comprehensive risk assessments for coastal areas.
+                            </p>
+
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Define study area
+study_area = oslrat.StudyArea.from_bounds(
+    north=37.8324,
+    south=37.7074,
+    east=-122.3549,
+    west=-122.5194
+)
+
+# Run risk assessment
+assessment = oslrat.RiskAssessment(study_area)
+results = assessment.analyze(
+    scenarios=['SSP2-4.5', 'SSP5-8.5'],
+    years=[2050, 2100],
+    include_population=True,
+    include_infrastructure=True,
+    include_economic_impact=True
+)
+
+# Generate report
+report = results.generate_report(
+    format='pdf',
+    include_maps=True,
+    include_recommendations=True
+)
+report.save('risk_assessment_report.pdf')</code></pre>
+                            </div>
+
+                            <div class="info-box info-box--warning">
+                                <h4 class="info-box__title">Note on Uncertainty</h4>
+                                <p class="info-box__text">
+                                    All projections include uncertainty ranges. Always consider the
+                                    full range of possible outcomes in your planning.
+                                </p>
+                            </div>
+                        </article>
+
+                        <!-- Scenario Planning -->
+                        <article id="scenarios" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Scenario Planning</h2>
+                            <p class="docs-section__text">
+                                Compare different emission scenarios and adaptation strategies.
+                            </p>
+
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Create scenario comparison
+scenarios = oslrat.ScenarioPlanner()
+
+# Add baseline (no adaptation)
+scenarios.add_scenario(
+    name='No Adaptation',
+    slr_scenario='SSP5-8.5',
+    adaptation_measures=[]
+)
+
+# Add adaptation scenarios
+scenarios.add_scenario(
+    name='Seawall Protection',
+    slr_scenario='SSP5-8.5',
+    adaptation_measures=[
+        oslrat.Seawall(height=3.0),
+        oslrat.BeachNourishment(interval=5)
+    ]
+)
+
+scenarios.add_scenario(
+    name='Managed Retreat',
+    slr_scenario='SSP5-8.5',
+    adaptation_measures=[
+        oslrat.ManagedRetreat(trigger_level=1.5)
+    ]
+)
+
+# Compare scenarios
+comparison = scenarios.compare(
+    metrics=['cost', 'protection_level', 'co2_reduction'],
+    time_horizon=2100
+)
+
+# Visualize comparison
+comparison.plot_comparison()</code></pre>
+                            </div>
+                        </article>
+
+                        <!-- Export -->
+                        <article id="export" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Export & Reports</h2>
+                            <p class="docs-section__text">
+                                Export data and generate reports in various formats.
+                            </p>
+
+                            <h3 class="docs-section__subtitle">Data Export</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Export to various formats
+results.to_csv('data.csv')
+results.to_excel('data.xlsx')
+results.to_geojson('data.geojson')
+results.to_netcdf('data.nc')</code></pre>
+                            </div>
+
+                            <h3 class="docs-section__subtitle">Report Generation</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__language">python</span>
+                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre class="code-block__content"><code># Generate comprehensive report
+report = oslrat.Report()
+report.add_section('Executive Summary', auto_generate=True)
+report.add_section('Methodology', include_citations=True)
+report.add_section('Results', include_visualizations=True)
+report.add_section('Recommendations', risk_based=True)
+
+# Export report
+report.export('assessment_report.pdf', style='scientific')
+report.export('assessment_report.html', interactive=True)</code></pre>
+                            </div>
+                        </article>
+
+                        <!-- API Reference -->
+                        <article id="api" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">API Reference</h2>
+
+                            <h3 class="docs-section__subtitle">Core Classes</h3>
+
+                            <div class="api-item">
+                                <h4 class="api-item__title">oslrat.SeaLevelRise</h4>
+                                <p class="api-item__description">
+                                    Main class for sea-level rise analysis and projections.
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>SeaLevelRise(
+    data_source='auto',
+    cache_dir=None,
+    verbose=True
+)</code></pre>
+                                </div>
+                                <h5 class="api-item__subtitle">Parameters:</h5>
+                                <ul class="api-item__params">
+                                    <li><code>data_source</code> (str): Data source to use. Options: 'auto', 'ipcc', 'noaa'</li>
+                                    <li><code>cache_dir</code> (str): Directory for caching downloaded data</li>
+                                    <li><code>verbose</code> (bool): Enable verbose output</li>
+                                </ul>
+                            </div>
+
+                            <div class="api-item">
+                                <h4 class="api-item__title">oslrat.Location</h4>
+                                <p class="api-item__description">
+                                    Represents a specific geographic location for analysis.
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>Location(
+    latitude,
+    longitude,
+    name=None,
+    elevation=None
+)</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="api-item">
+                                <h4 class="api-item__title">oslrat.RiskAssessment</h4>
+                                <p class="api-item__description">
+                                    Conducts comprehensive coastal risk assessments.
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>RiskAssessment(
+    study_area,
+    dem_resolution='30m',
+    include_subsidence=True
+)</code></pre>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Troubleshooting -->
+                        <article id="troubleshooting" class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Troubleshooting</h2>
+
+                            <h3 class="docs-section__subtitle">Common Issues</h3>
+
+                            <div class="troubleshoot-item">
+                                <h4 class="troubleshoot-item__title">Installation fails with dependency errors</h4>
+                                <p class="troubleshoot-item__solution">
+                                    <strong>Solution:</strong> Try creating a fresh virtual environment and installing with:
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>python -m venv oslrat-env
+source oslrat-env/bin/activate  # On Windows: oslrat-env\Scripts\activate
+pip install --upgrade pip
+pip install oslrat</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="troubleshoot-item">
+                                <h4 class="troubleshoot-item__title">Data download is very slow</h4>
+                                <p class="troubleshoot-item__solution">
+                                    <strong>Solution:</strong> Consider using a different data source or mirror:
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>slr = oslrat.SeaLevelRise(
+    data_source='noaa',  # Try alternative source
+    cache_dir='/path/to/large/disk'  # Use disk with more space
+)</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="troubleshoot-item">
+                                <h4 class="troubleshoot-item__title">Memory errors with large study areas</h4>
+                                <p class="troubleshoot-item__solution">
+                                    <strong>Solution:</strong> Process data in smaller chunks or reduce resolution:
+                                </p>
+                                <div class="code-block">
+                                    <pre class="code-block__content"><code>assessment = oslrat.RiskAssessment(
+    study_area,
+    dem_resolution='90m',  # Lower resolution
+    chunk_size=1000  # Process in chunks
+)</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="info-box info-box--help">
+                                <h4 class="info-box__title">Still Need Help?</h4>
+                                <p class="info-box__text">
+                                    If you're still experiencing issues:
+                                </p>
+                                <ul class="info-box__list">
+                                    <li>Check the <a href="https://github.com/yourusername/OSLRAT/issues">GitHub Issues</a> page</li>
+                                    <li>Join our community discussion forum</li>
+                                    <li><a href="contact.html">Contact the development team</a></li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <!-- Next Steps -->
+                        <article class="docs-section" data-animate="fade-up">
+                            <h2 class="docs-section__title">Next Steps</h2>
+                            <div class="next-steps">
+                                <a href="methodology.html" class="next-step-card">
+                                    <h3 class="next-step-card__title">Explore Methodology</h3>
+                                    <p class="next-step-card__text">
+                                        Learn about the scientific foundations of OSLRAT
+                                    </p>
+                                </a>
+                                <a href="https://github.com/yourusername/OSLRAT/tree/main/examples" class="next-step-card" target="_blank" rel="noopener">
+                                    <h3 class="next-step-card__title">View Examples</h3>
+                                    <p class="next-step-card__text">
+                                        Explore complete code examples and tutorials
+                                    </p>
+                                </a>
+                                <a href="contact.html" class="next-step-card">
+                                    <h3 class="next-step-card__title">Get Support</h3>
+                                    <p class="next-step-card__text">
+                                        Connect with the community and get help
+                                    </p>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">OSLRAT</h3>
+                    <p class="footer__description">
+                        Open-Source Sea-Level Rise Assessment Tool
+                    </p>
+                    <p class="footer__description">
+                        Empowering coastal communities through accessible climate science.
+                    </p>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html" class="footer__link">Home</a></li>
+                        <li><a href="about.html" class="footer__link">About</a></li>
+                        <li><a href="methodology.html" class="footer__link">Methodology</a></li>
+                        <li><a href="documentation.html" class="footer__link">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Resources</h4>
+                    <ul class="footer__links">
+                        <li><a href="https://github.com/yourusername/OSLRAT" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
+                        <li><a href="contact.html" class="footer__link">Contact Us</a></li>
+                        <li><a href="#" class="footer__link">API Documentation</a></li>
+                        <li><a href="#" class="footer__link">Contribute</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Connect</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Twitter</a></li>
+                        <li><a href="#" class="footer__link">Research Papers</a></li>
+                        <li><a href="#" class="footer__link">Blog</a></li>
+                        <li><a href="contact.html" class="footer__link">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    &copy; 2025 OSLRAT Project. Released under MIT License.
+                </p>
+                <p class="footer__credit">
+                    Built with science, designed for impact.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Scientific methodology and data sources behind OSLRAT's sea-level rise projections">
+    <title>Methodology - OSLRAT</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">
+                <span class="nav__logo-text">OSLRAT</span>
+                <span class="nav__logo-subtext">Sea-Level Rise Assessment</span>
+            </a>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+            </button>
+
+            <ul class="nav__menu" id="nav-menu">
+                <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                <li class="nav__item"><a href="about.html" class="nav__link">About</a></li>
+                <li class="nav__item"><a href="methodology.html" class="nav__link nav__link--active">Methodology</a></li>
+                <li class="nav__item"><a href="documentation.html" class="nav__link">Documentation</a></li>
+                <li class="nav__item"><a href="contact.html" class="nav__link">Contact</a></li>
+                <li class="nav__item"><a href="https://github.com/yourusername/OSLRAT" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-header__title">Scientific Methodology</h1>
+            <p class="page-header__subtitle">
+                Transparent, peer-reviewed approaches to sea-level rise assessment
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="content-grid">
+                    <div class="content-grid__main">
+                        <!-- Overview -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Methodological Overview</h2>
+                            <p class="content-block__text">
+                                OSLRAT's methodology is grounded in the latest climate science and follows
+                                best practices established by the Intergovernmental Panel on Climate Change
+                                (IPCC), the National Oceanic and Atmospheric Administration (NOAA), and
+                                leading research institutions worldwide.
+                            </p>
+                            <p class="content-block__text">
+                                Our approach integrates multiple data sources and modeling techniques to
+                                provide robust, scientifically defensible sea-level rise projections and
+                                risk assessments. All methods are fully documented and our code is open
+                                source, enabling peer review and validation by the scientific community.
+                            </p>
+                        </article>
+
+                        <!-- Data Sources -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Data Sources</h2>
+                            <p class="content-block__text">
+                                OSLRAT synthesizes data from multiple authoritative sources to provide
+                                comprehensive and reliable projections:
+                            </p>
+
+                            <div class="data-source">
+                                <div class="data-source__header">
+                                    <h3 class="data-source__title">IPCC Assessment Reports</h3>
+                                    <span class="data-source__badge">Primary Source</span>
+                                </div>
+                                <p class="data-source__description">
+                                    We use sea-level projections from the IPCC Sixth Assessment Report (AR6),
+                                    which represents the consensus of thousands of climate scientists worldwide.
+                                    These projections incorporate:
+                                </p>
+                                <ul class="data-source__list">
+                                    <li>Global mean sea-level rise projections under different emission scenarios (SSP1-1.9 through SSP5-8.5)</li>
+                                    <li>Regional sea-level change patterns from coupled climate models</li>
+                                    <li>Contributions from thermal expansion, glacier melt, and ice sheet dynamics</li>
+                                    <li>Uncertainty quantification using ensemble modeling</li>
+                                </ul>
+                            </div>
+
+                            <div class="data-source">
+                                <div class="data-source__header">
+                                    <h3 class="data-source__title">NOAA Sea Level Rise Data</h3>
+                                    <span class="data-source__badge">Regional Data</span>
+                                </div>
+                                <p class="data-source__description">
+                                    High-resolution projections for U.S. coastal areas, including:
+                                </p>
+                                <ul class="data-source__list">
+                                    <li>Tide gauge measurements and historical trends</li>
+                                    <li>Regional variations in sea-level change</li>
+                                    <li>Vertical land motion (subsidence/uplift) corrections</li>
+                                    <li>Probabilistic projections with confidence intervals</li>
+                                </ul>
+                            </div>
+
+                            <div class="data-source">
+                                <div class="data-source__header">
+                                    <h3 class="data-source__title">NASA Sea Level Change Portal</h3>
+                                    <span class="data-source__badge">Satellite Observations</span>
+                                </div>
+                                <p class="data-source__description">
+                                    Satellite altimetry data providing:
+                                </p>
+                                <ul class="data-source__list">
+                                    <li>Global sea-level observations since 1993</li>
+                                    <li>High-precision measurements of sea surface height</li>
+                                    <li>Regional and global sea-level trends</li>
+                                    <li>Validation data for model projections</li>
+                                </ul>
+                            </div>
+
+                            <div class="data-source">
+                                <div class="data-source__header">
+                                    <h3 class="data-source__title">Digital Elevation Models</h3>
+                                    <span class="data-source__badge">Topography</span>
+                                </div>
+                                <p class="data-source__description">
+                                    High-resolution elevation data for coastal vulnerability assessment:
+                                </p>
+                                <ul class="data-source__list">
+                                    <li>SRTM (Shuttle Radar Topography Mission) global coverage</li>
+                                    <li>USGS 3DEP for detailed U.S. coastal areas</li>
+                                    <li>Lidar-derived DEMs where available</li>
+                                    <li>Bathymetric data for offshore areas</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <!-- Projection Methodology -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Projection Methodology</h2>
+
+                            <h3 class="content-block__subtitle">1. Scenario Selection</h3>
+                            <p class="content-block__text">
+                                We use the Shared Socioeconomic Pathways (SSPs) developed for IPCC AR6:
+                            </p>
+
+                            <div class="scenario-grid">
+                                <div class="scenario-card">
+                                    <h4 class="scenario-card__title">SSP1-1.9</h4>
+                                    <p class="scenario-card__label">Very Low Emissions</p>
+                                    <p class="scenario-card__description">
+                                        Aggressive mitigation. Net-zero CO₂ emissions by 2050.
+                                        ~0.3-0.6m rise by 2100.
+                                    </p>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <h4 class="scenario-card__title">SSP1-2.6</h4>
+                                    <p class="scenario-card__label">Low Emissions</p>
+                                    <p class="scenario-card__description">
+                                        Strong mitigation. Consistent with Paris Agreement.
+                                        ~0.4-0.7m rise by 2100.
+                                    </p>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <h4 class="scenario-card__title">SSP2-4.5</h4>
+                                    <p class="scenario-card__label">Intermediate Emissions</p>
+                                    <p class="scenario-card__description">
+                                        Middle-of-the-road pathway. Moderate mitigation.
+                                        ~0.5-0.8m rise by 2100.
+                                    </p>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <h4 class="scenario-card__title">SSP3-7.0</h4>
+                                    <p class="scenario-card__label">High Emissions</p>
+                                    <p class="scenario-card__description">
+                                        Limited mitigation. Regional rivalry.
+                                        ~0.6-1.0m rise by 2100.
+                                    </p>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <h4 class="scenario-card__title">SSP5-8.5</h4>
+                                    <p class="scenario-card__label">Very High Emissions</p>
+                                    <p class="scenario-card__description">
+                                        Fossil fuel development. No mitigation.
+                                        ~0.7-1.3m rise by 2100 (possibly higher).
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h3 class="content-block__subtitle">2. Calculation Process</h3>
+                            <p class="content-block__text">
+                                Our projection calculations follow this process:
+                            </p>
+
+                            <ol class="process-steps">
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Global Mean Sea-Level Projection</h4>
+                                    <p class="process-step__text">
+                                        Extract global mean sea-level rise projections for the selected
+                                        scenario and time period from IPCC AR6 data.
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Regional Adjustment</h4>
+                                    <p class="process-step__text">
+                                        Apply regional patterns of sea-level change based on ocean dynamics,
+                                        gravitational effects, and local factors. Some regions experience
+                                        higher or lower sea-level rise than the global mean.
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Vertical Land Motion Correction</h4>
+                                    <p class="process-step__text">
+                                        Incorporate vertical land motion (subsidence or uplift) using GPS
+                                        measurements and geological models. This is critical for accurate
+                                        local projections.
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Uncertainty Quantification</h4>
+                                    <p class="process-step__text">
+                                        Calculate confidence intervals (typically 17th-83rd percentiles and
+                                        5th-95th percentiles) to represent projection uncertainty from
+                                        multiple sources.
+                                    </p>
+                                </li>
+                            </ol>
+
+                            <div class="info-box info-box--info">
+                                <h4 class="info-box__title">Mathematical Formulation</h4>
+                                <p class="info-box__text">
+                                    Local relative sea-level change is calculated as:
+                                </p>
+                                <div class="equation">
+                                    RSL(x,y,t) = GMSL(t) + RF(x,y,t) + VLM(x,y,t)
+                                </div>
+                                <p class="info-box__text">
+                                    Where:
+                                </p>
+                                <ul class="info-box__list">
+                                    <li>RSL = Relative sea-level change</li>
+                                    <li>GMSL = Global mean sea-level change</li>
+                                    <li>RF = Regional fingerprint (spatial pattern)</li>
+                                    <li>VLM = Vertical land motion</li>
+                                    <li>x,y = Location coordinates</li>
+                                    <li>t = Time</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <!-- Risk Assessment -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Risk Assessment Methodology</h2>
+
+                            <h3 class="content-block__subtitle">Exposure Analysis</h3>
+                            <p class="content-block__text">
+                                We identify areas exposed to sea-level rise using:
+                            </p>
+                            <ul class="content-block__list">
+                                <li>Digital elevation models to map low-lying coastal areas</li>
+                                <li>Hydrodynamic connectivity analysis to identify flood pathways</li>
+                                <li>Storm surge and wave runup modeling for extreme event assessment</li>
+                                <li>Population and infrastructure datasets to quantify exposed assets</li>
+                            </ul>
+
+                            <h3 class="content-block__subtitle">Vulnerability Assessment</h3>
+                            <p class="content-block__text">
+                                Vulnerability is assessed across multiple dimensions:
+                            </p>
+
+                            <div class="vulnerability-factors">
+                                <div class="vulnerability-factor">
+                                    <h4 class="vulnerability-factor__title">Physical Vulnerability</h4>
+                                    <p class="vulnerability-factor__text">
+                                        Structural susceptibility to flooding, erosion, and saltwater intrusion
+                                    </p>
+                                </div>
+                                <div class="vulnerability-factor">
+                                    <h4 class="vulnerability-factor__title">Social Vulnerability</h4>
+                                    <p class="vulnerability-factor__text">
+                                        Community capacity to prepare for and respond to sea-level impacts
+                                    </p>
+                                </div>
+                                <div class="vulnerability-factor">
+                                    <h4 class="vulnerability-factor__title">Economic Vulnerability</h4>
+                                    <p class="vulnerability-factor__text">
+                                        Financial impacts on property, infrastructure, and economic activities
+                                    </p>
+                                </div>
+                                <div class="vulnerability-factor">
+                                    <h4 class="vulnerability-factor__title">Environmental Vulnerability</h4>
+                                    <p class="vulnerability-factor__text">
+                                        Impacts on coastal ecosystems and natural resources
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h3 class="content-block__subtitle">Risk Calculation</h3>
+                            <p class="content-block__text">
+                                Risk is calculated as the combination of hazard probability, exposure, and vulnerability:
+                            </p>
+                            <div class="equation">
+                                Risk = Hazard × Exposure × Vulnerability
+                            </div>
+                        </article>
+
+                        <!-- Uncertainty & Limitations -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Uncertainty and Limitations</h2>
+                            <p class="content-block__text">
+                                We acknowledge and communicate several sources of uncertainty in our projections:
+                            </p>
+
+                            <div class="limitation-item">
+                                <h4 class="limitation-item__title">Climate Model Uncertainty</h4>
+                                <p class="limitation-item__text">
+                                    Different climate models produce varying projections. We use ensemble
+                                    means and ranges to capture this uncertainty, but individual outcomes
+                                    may fall outside these ranges.
+                                </p>
+                            </div>
+
+                            <div class="limitation-item">
+                                <h4 class="limitation-item__title">Ice Sheet Dynamics</h4>
+                                <p class="limitation-item__text">
+                                    The behavior of Antarctic and Greenland ice sheets under warming is
+                                    uncertain. Potential instabilities could lead to higher sea-level rise
+                                    than current projections, particularly under high-emission scenarios.
+                                </p>
+                            </div>
+
+                            <div class="limitation-item">
+                                <h4 class="limitation-item__title">Vertical Land Motion</h4>
+                                <p class="limitation-item__text">
+                                    Local land subsidence or uplift rates can be difficult to measure and
+                                    may change over time due to groundwater extraction, sediment compaction,
+                                    or tectonic processes.
+                                </p>
+                            </div>
+
+                            <div class="limitation-item">
+                                <h4 class="limitation-item__title">Elevation Data Accuracy</h4>
+                                <p class="limitation-item__text">
+                                    Digital elevation model errors, particularly in coastal zones and vegetated
+                                    areas, can affect the accuracy of exposure assessments. High-quality lidar
+                                    data improves accuracy where available.
+                                </p>
+                            </div>
+
+                            <div class="limitation-item">
+                                <h4 class="limitation-item__title">Future Development</h4>
+                                <p class="limitation-item__text">
+                                    Our risk assessments use current population and infrastructure distributions.
+                                    Future development patterns will change exposure and vulnerability.
+                                </p>
+                            </div>
+
+                            <div class="info-box info-box--warning">
+                                <h4 class="info-box__title">Important Note on Projections</h4>
+                                <p class="info-box__text">
+                                    These projections represent our best scientific understanding based on
+                                    current knowledge. They should be used for planning purposes with awareness
+                                    of their uncertainties. Consider multiple scenarios and include safety
+                                    margins in adaptation planning.
+                                </p>
+                            </div>
+                        </article>
+
+                        <!-- Validation -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Validation and Quality Assurance</h2>
+                            <p class="content-block__text">
+                                We validate our projections and methods through:
+                            </p>
+
+                            <ul class="content-block__list">
+                                <li><strong>Hindcasting:</strong> Testing model accuracy against historical sea-level observations</li>
+                                <li><strong>Cross-validation:</strong> Comparing our results with published studies and other tools</li>
+                                <li><strong>Peer review:</strong> Publishing methods in scientific journals</li>
+                                <li><strong>Community feedback:</strong> Incorporating input from users and domain experts</li>
+                                <li><strong>Continuous updates:</strong> Integrating new data and improved methods as they become available</li>
+                            </ul>
+                        </article>
+
+                        <!-- References -->
+                        <article class="content-block" data-animate="fade-up">
+                            <h2 class="content-block__title">Key References</h2>
+                            <div class="references">
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        IPCC (2021). Climate Change 2021: The Physical Science Basis. Contribution
+                                        of Working Group I to the Sixth Assessment Report of the Intergovernmental
+                                        Panel on Climate Change. Cambridge University Press.
+                                    </p>
+                                </div>
+
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        Fox-Kemper, B., et al. (2021). Ocean, Cryosphere and Sea Level Change.
+                                        In Climate Change 2021: The Physical Science Basis. IPCC AR6 WGI Chapter 9.
+                                    </p>
+                                </div>
+
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        Sweet, W.V., et al. (2022). Global and Regional Sea Level Rise Scenarios
+                                        for the United States: Updated Mean Projections and Extreme Water Level
+                                        Probabilities Along U.S. Coastlines. NOAA Technical Report NOS 01.
+                                    </p>
+                                </div>
+
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        Oppenheimer, M., et al. (2019). Sea Level Rise and Implications for
+                                        Low-Lying Islands, Coasts and Communities. IPCC Special Report on the
+                                        Ocean and Cryosphere in a Changing Climate.
+                                    </p>
+                                </div>
+
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        Kopp, R.E., et al. (2014). Probabilistic 21st and 22nd century sea-level
+                                        projections at a global network of tide-gauge sites. Earth's Future, 2(8).
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <aside class="content-grid__sidebar">
+                        <div class="sidebar-card" data-animate="fade-up">
+                            <h3 class="sidebar-card__title">Quick Links</h3>
+                            <ul class="sidebar-card__links">
+                                <li><a href="#data-sources" class="sidebar-card__link">Data Sources</a></li>
+                                <li><a href="#projections" class="sidebar-card__link">Projection Methods</a></li>
+                                <li><a href="#risk" class="sidebar-card__link">Risk Assessment</a></li>
+                                <li><a href="#uncertainty" class="sidebar-card__link">Uncertainty</a></li>
+                                <li><a href="#validation" class="sidebar-card__link">Validation</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-card" data-animate="fade-up" style="animation-delay: 0.1s">
+                            <h3 class="sidebar-card__title">Latest Research</h3>
+                            <p class="sidebar-card__text">
+                                Our methodology is continuously updated based on the latest peer-reviewed
+                                research in climate science and coastal risk assessment.
+                            </p>
+                            <a href="#" class="btn btn--small btn--secondary">View Publications</a>
+                        </div>
+
+                        <div class="sidebar-card" data-animate="fade-up" style="animation-delay: 0.2s">
+                            <h3 class="sidebar-card__title">Technical Details</h3>
+                            <p class="sidebar-card__text">
+                                For complete technical specifications and algorithm documentation, see our
+                                GitHub repository.
+                            </p>
+                            <a href="https://github.com/yourusername/OSLRAT" class="btn btn--small btn--primary" target="_blank" rel="noopener">
+                                View on GitHub
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta section section--accent">
+            <div class="container">
+                <div class="cta__content">
+                    <h2 class="cta__title">Ready to Use OSLRAT?</h2>
+                    <p class="cta__description">
+                        Explore our documentation to start using these methods in your own assessments.
+                    </p>
+                    <div class="cta__actions">
+                        <a href="documentation.html" class="btn btn--large btn--primary">View Documentation</a>
+                        <a href="about.html" class="btn btn--large btn--outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">OSLRAT</h3>
+                    <p class="footer__description">
+                        Open-Source Sea-Level Rise Assessment Tool
+                    </p>
+                    <p class="footer__description">
+                        Empowering coastal communities through accessible climate science.
+                    </p>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html" class="footer__link">Home</a></li>
+                        <li><a href="about.html" class="footer__link">About</a></li>
+                        <li><a href="methodology.html" class="footer__link">Methodology</a></li>
+                        <li><a href="documentation.html" class="footer__link">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Resources</h4>
+                    <ul class="footer__links">
+                        <li><a href="https://github.com/yourusername/OSLRAT" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
+                        <li><a href="contact.html" class="footer__link">Contact Us</a></li>
+                        <li><a href="#" class="footer__link">API Documentation</a></li>
+                        <li><a href="#" class="footer__link">Contribute</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__section">
+                    <h4 class="footer__heading">Connect</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Twitter</a></li>
+                        <li><a href="#" class="footer__link">Research Papers</a></li>
+                        <li><a href="#" class="footer__link">Blog</a></li>
+                        <li><a href="contact.html" class="footer__link">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    &copy; 2025 OSLRAT Project. Released under MIT License.
+                </p>
+                <p class="footer__credit">
+                    Built with science, designed for impact.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

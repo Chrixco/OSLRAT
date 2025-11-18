@@ -1257,6 +1257,12 @@ code {
   flex-shrink: 0;
 }
 
+.principle__icon img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
 .principle__title {
   font-size: var(--font-size-lg);
   margin-bottom: var(--space-xs);
@@ -2553,11 +2559,65 @@ code {
   border: 1px solid rgba(0, 255, 255, 0.1);
   border-radius: var(--radius-xl);
   padding: var(--space-2xl);
+  overflow: hidden;
+}
+
+.viz-section * {
+  box-sizing: border-box;
 }
 
 /* Interactive Chart Container */
 .interactive-chart-container {
   margin-bottom: var(--space-2xl);
+  display: flex;
+  gap: 1rem;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 1rem;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.axis-label {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--color-neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--color-neon-cyan-glow);
+}
+
+.axis-ticks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
+  flex: 1;
+}
+
+.axis-tick {
+  position: relative;
+  text-align: right;
+}
+
+.axis-tick span {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .interactive-chart {
@@ -2568,6 +2628,20 @@ code {
   border-radius: var(--radius-xl);
   overflow: hidden;
   cursor: crosshair;
+}
+
+.chart-x-axis {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.axis-label-x {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--color-neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 10px var(--color-neon-cyan-glow);
 }
 
 /* Base gradient fill */
@@ -2581,18 +2655,19 @@ code {
   pointer-events: none;
 }
 
-/* Danger overlay (red) */
-.danger-overlay {
+/* Danger overlay SVG (red organic shape) */
+.danger-overlay-svg {
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: 0%;
-  background: linear-gradient(to top, var(--color-neon-red) 0%, rgba(255, 0, 85, 0.3) 100%);
-  box-shadow: 0 0 40px var(--color-neon-red-glow);
-  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  opacity: 0.8;
+  filter: drop-shadow(0 0 20px var(--color-neon-red-glow));
+}
+
+#dangerPath {
+  transition: d 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Timeline markers */
@@ -2660,23 +2735,27 @@ code {
   color: #ffffff;
 }
 
-/* Info Panel */
+/* Info Panel - Fixed size to prevent layout shift */
 .chart-info-panel {
   position: absolute;
   top: 20px;
   left: 20px;
+  width: 320px;
+  height: 160px;
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 0, 85, 0.5);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  min-width: 250px;
   box-shadow: 0 0 30px var(--color-neon-red-glow);
   opacity: 0;
   transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .chart-info-panel.active {
@@ -2690,6 +2769,8 @@ code {
   color: var(--color-neon-red);
   line-height: 1;
   text-shadow: 0 0 20px var(--color-neon-red-glow);
+  min-height: 3rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .info-panel-slr {
@@ -2697,6 +2778,8 @@ code {
   font-weight: 200;
   color: #ffffff;
   margin: 0.5rem 0;
+  min-height: 2rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .info-panel-impact {
@@ -2704,6 +2787,9 @@ code {
   font-weight: 300;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.4;
+  min-height: 2.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Chart instruction */
@@ -2722,22 +2808,100 @@ code {
   color: var(--color-neon-cyan);
 }
 
+/* Chart Legend */
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legend-color {
+  width: 40px;
+  height: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 15px var(--color-neon-red-glow);
+  border: 1px solid rgba(255, 0, 85, 0.5);
+}
+
+.legend-icon {
+  font-size: 1.2rem;
+}
+
+.legend-label {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 @media (max-width: 768px) {
+  .interactive-chart-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .chart-y-axis {
+    flex-direction: row;
+    align-items: center;
+    min-width: auto;
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .axis-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+
+  .axis-ticks {
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+  }
+
+  .axis-tick {
+    text-align: center;
+  }
+
   .interactive-chart {
     height: 300px;
   }
 
   .chart-info-panel {
-    min-width: 200px;
+    width: 260px;
+    height: 140px;
     padding: 1rem;
+    top: 10px;
+    left: 10px;
   }
 
   .info-panel-year {
     font-size: 2rem;
+    min-height: 2rem;
   }
 
   .info-panel-slr {
     font-size: 1.5rem;
+    min-height: 1.5rem;
+  }
+
+  .info-panel-impact {
+    font-size: 0.8rem;
+    min-height: 2rem;
   }
 
   .marker-label {
@@ -2750,6 +2914,25 @@ code {
 
   .marker-slr {
     font-size: 1rem;
+  }
+
+  .viz-stat {
+    min-width: 280px;
+  }
+
+  .viz-number {
+    min-width: 140px;
+    font-size: 2.5rem;
+  }
+
+  .viz-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-legend {
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 
@@ -2774,6 +2957,7 @@ code {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
+  min-width: 350px;
 }
 
 .viz-number {
@@ -2781,6 +2965,9 @@ code {
   font-weight: 100;
   color: var(--color-neon-cyan);
   text-shadow: 0 0 20px var(--color-neon-cyan-glow);
+  font-variant-numeric: tabular-nums;
+  min-width: 180px;
+  text-align: right;
 }
 
 .viz-unit {
@@ -2788,6 +2975,13 @@ code {
   font-weight: 200;
   color: var(--color-neon-yellow);
   opacity: 0.8;
+  white-space: nowrap;
+}
+
+#current-year {
+  display: inline-block;
+  min-width: 3.5em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Neon Bar Chart */

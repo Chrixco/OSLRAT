@@ -45,9 +45,7 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="hero__background">
-            <div class="hero__wave hero__wave--1"></div>
-            <div class="hero__wave hero__wave--2"></div>
-            <div class="hero__wave hero__wave--3"></div>
+            <div class="hero__neon-grid"></div>
         </div>
 
         <div class="hero__content">
@@ -66,21 +64,142 @@
                 </div>
             </div>
 
-            <div class="hero__stats">
-                <div class="stat-card">
-                    <div class="stat-card__icon">🌊</div>
-                    <div class="stat-card__value" data-target="2100">0</div>
-                    <div class="stat-card__label">Projections to</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card__icon">🗺️</div>
-                    <div class="stat-card__value">Open</div>
-                    <div class="stat-card__label">Source Data</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card__icon">🔬</div>
-                    <div class="stat-card__value">Scientific</div>
-                    <div class="stat-card__label">Methodology</div>
+            <!-- Interactive Data Visualization Section -->
+            <div class="hero__visualization">
+                <div class="viz-section interactive-viz">
+                    <div class="viz-header">
+                        <span class="viz-label">IPCC AR6 — RCP 8.5 SCENARIO</span>
+                        <div class="viz-stat">
+                            <span class="viz-number" id="current-slr">1.10</span>
+                            <span class="viz-unit">meters by <span id="current-year">2100</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Chart Container -->
+                    <div class="interactive-chart-container">
+                        <!-- Y-axis (SLR) -->
+                        <div class="chart-y-axis">
+                            <div class="axis-label">SLR (m)</div>
+                            <div class="axis-ticks">
+                                <div class="axis-tick"><span>1.2</span></div>
+                                <div class="axis-tick"><span>0.9</span></div>
+                                <div class="axis-tick"><span>0.6</span></div>
+                                <div class="axis-tick"><span>0.3</span></div>
+                                <div class="axis-tick"><span>0.0</span></div>
+                            </div>
+                        </div>
+
+                        <div class="chart-wrapper">
+                            <div class="interactive-chart" id="interactiveChart">
+                                <!-- Info Panel -->
+                                <div class="chart-info-panel" id="infoPanel">
+                                    <div class="info-panel-year" id="panelYear">2100</div>
+                                    <div class="info-panel-slr" id="panelSLR">+1.10m</div>
+                                    <div class="info-panel-impact" id="panelImpact">280M+ people at risk</div>
+                                </div>
+
+                                <!-- Red danger overlay with organic shape -->
+                                <svg class="danger-overlay-svg" id="dangerOverlaySVG" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <path id="dangerPath" d="M 0 100 L 0 100 L 100 100 Z" fill="url(#dangerGradient)" />
+                                    <defs>
+                                        <linearGradient id="dangerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#ff0055;stop-opacity:0.3" />
+                                            <stop offset="100%" style="stop-color:#ff0055;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+
+                                <!-- Timeline markers -->
+                            <div class="timeline-markers">
+                                <div class="timeline-marker" data-year="2030" data-slr="0.28" data-position="25">
+                                    <div class="marker-line"></div>
+                                    <div class="marker-label">
+                                        <span class="marker-year">2030</span>
+                                        <span class="marker-slr">0.28m</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-marker" data-year="2050" data-slr="0.51" data-position="45">
+                                    <div class="marker-line"></div>
+                                    <div class="marker-label">
+                                        <span class="marker-year">2050</span>
+                                        <span class="marker-slr">0.51m</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-marker" data-year="2075" data-slr="0.78" data-position="70">
+                                    <div class="marker-line"></div>
+                                    <div class="marker-label">
+                                        <span class="marker-year">2075</span>
+                                        <span class="marker-slr">0.78m</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-marker" data-year="2100" data-slr="1.10" data-position="100">
+                                    <div class="marker-line"></div>
+                                    <div class="marker-label">
+                                        <span class="marker-year">2100</span>
+                                        <span class="marker-slr">1.10m</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Base gradient fill -->
+                            <div class="chart-base-fill"></div>
+                        </div>
+
+                            <!-- X-axis (Years) -->
+                            <div class="chart-x-axis">
+                                <div class="axis-label-x">IPCC AR6 (2021) — RCP 8.5 Scenario</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-instruction">
+                            <span>↔</span> Move your cursor to explore different sea level rise scenarios
+                        </div>
+
+                        <!-- Chart Legend -->
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: linear-gradient(to top, #ff0055, rgba(255, 0, 85, 0.3));"></div>
+                                <span class="legend-label">Sea Level Rise (SLR)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-icon">📅</div>
+                                <span class="legend-label">Timeline: 2024 → 2100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impact Stats -->
+                    <div class="impact-stats">
+                        <div class="impact-stat-item">
+                            <div class="impact-stat-header">
+                                <span class="impact-stat-label">Coastal Flooding Risk</span>
+                                <span class="impact-stat-value"><span class="counter" data-target="280">0</span>M People</span>
+                            </div>
+                            <div class="impact-progress">
+                                <div class="impact-progress-fill" data-width="75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="impact-stat-item">
+                            <div class="impact-stat-header">
+                                <span class="impact-stat-label">Delta Cities Affected</span>
+                                <span class="impact-stat-value"><span class="counter" data-target="340">0</span>M People</span>
+                            </div>
+                            <div class="impact-progress">
+                                <div class="impact-progress-fill" data-width="85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="impact-stat-item">
+                            <div class="impact-stat-header">
+                                <span class="impact-stat-label">Economic Assets at Risk</span>
+                                <span class="impact-stat-value">$<span class="counter" data-target="14">0</span>T</span>
+                            </div>
+                            <div class="impact-progress">
+                                <div class="impact-progress-fill" data-width="90%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -223,6 +342,153 @@
                             </div>
                             <p class="data-viz__caption">Projected sea-level rise (illustrative)</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Critical Cities Section -->
+        <section class="cities section">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Critical Delta & Coastal Cities</h2>
+                    <p class="section__subtitle">
+                        Major urban centers facing the greatest risk from sea level rise and coastal flooding by 2100.
+                    </p>
+                </div>
+
+                <div class="cities-grid">
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.1s;">
+                        <div class="city-header">
+                            <div class="city-name">Shanghai</div>
+                            <div class="city-country">China</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="24">0</span>M</div>
+                        <div class="city-description">Yangtze Delta. Population at risk by 2050. Subsidence rate: 2.5cm/year combined with SLR.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.2s;">
+                        <div class="city-header">
+                            <div class="city-name">Dhaka</div>
+                            <div class="city-country">Bangladesh</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="19">0</span>M</div>
+                        <div class="city-description">Ganges-Brahmaputra Delta. 17% of land area submerged by 2050. Climate migration hotspot.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.3s;">
+                        <div class="city-header">
+                            <div class="city-name">Bangkok</div>
+                            <div class="city-country">Thailand</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="92">0</span>%</div>
+                        <div class="city-description">Chao Phraya Delta. 92% of city area at risk by 2100. Current elevation: 1.5m above sea level.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.4s;">
+                        <div class="city-header">
+                            <div class="city-name">Ho Chi Minh</div>
+                            <div class="city-country">Vietnam</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="20">0</span>%</div>
+                        <div class="city-description">Mekong Delta. 20% of metropolitan area flooded by 2100. Critical rice production region.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.5s;">
+                        <div class="city-header">
+                            <div class="city-name">Jakarta</div>
+                            <div class="city-country">Indonesia</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="25">0</span>cm</div>
+                        <div class="city-description">North Java Coast. Annual subsidence rate. 95% of North Jakarta below sea level by 2050.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.6s;">
+                        <div class="city-header">
+                            <div class="city-name">Alexandria</div>
+                            <div class="city-country">Egypt</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="6">0</span>M</div>
+                        <div class="city-description">Nile Delta. Population threatened. 30% of delta agricultural land submerged by 2100.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.7s;">
+                        <div class="city-header">
+                            <div class="city-name">Miami</div>
+                            <div class="city-country">USA</div>
+                        </div>
+                        <div class="city-stat">$<span class="counter" data-target="416">0</span>B</div>
+                        <div class="city-description">South Florida Coast. Property value at risk by 2050. High tide flooding now 400% more frequent.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.8s;">
+                        <div class="city-header">
+                            <div class="city-name">Mumbai</div>
+                            <div class="city-country">India</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="11">0</span>M</div>
+                        <div class="city-description">Western India Coast. People exposed to coastal flooding annually by 2050. Critical port infrastructure.</div>
+                    </div>
+
+                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.9s;">
+                        <div class="city-header">
+                            <div class="city-name">New York</div>
+                            <div class="city-country">USA</div>
+                        </div>
+                        <div class="city-stat"><span class="counter" data-target="2">0</span>M</div>
+                        <div class="city-description">Hudson River Estuary. People in 100-year flood zones by 2050. Storm surge risk increasing.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section section section--dark">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">Projected Timeline</h2>
+                    <p class="section__subtitle">
+                        Key milestones in sea level rise under the IPCC AR6 RCP 8.5 high emissions scenario.
+                    </p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2030</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">0.28m Average Global SLR</div>
+                            <div class="timeline-description">Increased coastal flooding events. Small island nations experiencing permanent inundation of low-lying areas.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2050</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">0.51m Average Global SLR</div>
+                            <div class="timeline-description">Major delta cities implement massive flood defense systems. First climate migration waves from Pacific islands and delta regions.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2075</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">0.78m Average Global SLR</div>
+                            <div class="timeline-description">Significant portions of coastal megacities permanently flooded. Global infrastructure relocation accelerates.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2100</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">1.10m Average Global SLR</div>
+                            <div class="timeline-description">280M+ people displaced. Major coastal cities fundamentally transformed. $14T in global assets lost or relocated.</div>
+                        </div>
+                        <div class="timeline-dot"></div>
                     </div>
                 </div>
             </div>

@@ -76,8 +76,9 @@ function initStickyNav() {
  * @param {HTMLElement} element - The element containing the number
  * @param {number} target - The target number to count to
  * @param {number} duration - Animation duration in milliseconds
+ * @param {number} decimals - Number of decimal places (default: 0)
  */
-function animateCounter(element, target, duration = 2000) {
+function animateCounter(element, target, duration = 2000, decimals = 0) {
   const start = 0;
   const increment = target / (duration / 16); // 60 FPS
   let current = start;
@@ -85,10 +86,10 @@ function animateCounter(element, target, duration = 2000) {
   const timer = setInterval(() => {
     current += increment;
     if (current >= target) {
-      element.textContent = target;
+      element.textContent = decimals > 0 ? target.toFixed(decimals) : target;
       clearInterval(timer);
     } else {
-      element.textContent = Math.floor(current);
+      element.textContent = decimals > 0 ? current.toFixed(decimals) : Math.floor(current);
     }
   }, 16);
 }
@@ -97,22 +98,86 @@ function animateCounter(element, target, duration = 2000) {
  * Initialize counter animations when they come into view
  */
 function initCounters() {
-  const counters = document.querySelectorAll('[data-target]');
+  const counters = document.querySelectorAll('.counter[data-target]');
   if (!counters.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !entry.target.dataset.counted) {
-        const target = parseInt(entry.target.dataset.target);
-        animateCounter(entry.target, target);
+        const target = parseFloat(entry.target.dataset.target);
+        const decimals = parseInt(entry.target.dataset.decimals) || 0;
+        animateCounter(entry.target, target, 2000, decimals);
         entry.target.dataset.counted = 'true';
       }
     });
   }, {
-    threshold: 0.5
+    threshold: 0.3
   });
 
   counters.forEach(counter => observer.observe(counter));
+}
+
+// ============================================================================
+// NEON BAR CHART ANIMATIONS
+// ============================================================================
+
+/**
+ * Animate neon bar charts when they come into view
+ */
+function initNeonBarCharts() {
+  const neonBars = document.querySelectorAll('.neon-bar[data-height]');
+  if (!neonBars.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        const bar = entry.target;
+        const fill = bar.querySelector('.neon-bar-fill');
+        const height = bar.dataset.height;
+
+        // Delay based on position
+        const index = Array.from(neonBars).indexOf(bar);
+        setTimeout(() => {
+          fill.style.height = height;
+        }, index * 200);
+
+        bar.dataset.animated = 'true';
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+
+  neonBars.forEach(bar => observer.observe(bar));
+}
+
+/**
+ * Animate progress bars when they come into view
+ */
+function initProgressBars() {
+  const progressBars = document.querySelectorAll('.impact-progress-fill[data-width]');
+  if (!progressBars.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        const fill = entry.target;
+        const width = fill.dataset.width;
+
+        // Delay based on position
+        const index = Array.from(progressBars).indexOf(fill);
+        setTimeout(() => {
+          fill.style.width = width;
+        }, 500 + (index * 300));
+
+        fill.dataset.animated = 'true';
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+
+  progressBars.forEach(bar => observer.observe(bar));
 }
 
 // ============================================================================
@@ -685,6 +750,176 @@ function initThemeDetection() {
 }
 
 // ============================================================================
+// INTERACTIVE SLR CHART
+// ============================================================================
+
+/**
+ * Initialize interactive sea level rise chart
+ */
+function initInteractiveSLRChart() {
+  const chart = document.getElementById('interactiveChart');
+  if (!chart) return;
+
+  const dangerPath = document.getElementById('dangerPath');
+  const infoPanel = document.getElementById('infoPanel');
+  const panelYear = document.getElementById('panelYear');
+  const panelSLR = document.getElementById('panelSLR');
+  const panelImpact = document.getElementById('panelImpact');
+  const currentSLR = document.getElementById('current-slr');
+  const currentYear = document.getElementById('current-year');
+
+  // SLR data points with people affected (in millions)
+  const slrData = [
+    { year: 2024, slr: 0, people: 0, peopleDisplay: '0', impact: 'Current sea level' },
+    { year: 2030, slr: 0.28, people: 120, peopleDisplay: '120M', impact: 'Increased coastal flooding events' },
+    { year: 2050, slr: 0.51, people: 200, peopleDisplay: '200M', impact: 'Major delta cities at severe risk' },
+    { year: 2075, slr: 0.78, people: 250, peopleDisplay: '250M', impact: 'Significant coastal infrastructure loss' },
+    { year: 2100, slr: 1.10, people: 280, peopleDisplay: '280M+', impact: 'Catastrophic global displacement' }
+  ];
+
+  // Linear interpolation function
+  function lerp(start, end, t) {
+    return start + (end - start) * t;
+  }
+
+  // Calculate SLR and year based on mouse position
+  function calculateSLRFromPosition(x) {
+    const rect = chart.getBoundingClientRect();
+    const percentage = Math.max(0, Math.min(1, x / rect.width));
+
+    // Map percentage to year range (2024-2100)
+    const year = Math.round(lerp(2024, 2100, percentage));
+
+    // Find closest data points
+    let lowerIndex = 0;
+    for (let i = 0; i < slrData.length - 1; i++) {
+      if (year >= slrData[i].year && year <= slrData[i + 1].year) {
+        lowerIndex = i;
+        break;
+      }
+    }
+
+    const lower = slrData[lowerIndex];
+    const upper = slrData[lowerIndex + 1] || lower;
+
+    // Interpolate SLR value and people affected
+    const yearProgress = (year - lower.year) / (upper.year - lower.year);
+    const slr = lerp(lower.slr, upper.slr, yearProgress);
+    const people = Math.round(lerp(lower.people, upper.people, yearProgress));
+
+    // Get impact description for nearest year
+    const nearestData = slrData.reduce((prev, curr) =>
+      Math.abs(curr.year - year) < Math.abs(prev.year - year) ? curr : prev
+    );
+
+    return {
+      year,
+      slr: slr.toFixed(2),
+      people: people,
+      peopleDisplay: people === 0 ? '0' : `${people}M`,
+      impact: nearestData.impact,
+      percentage: percentage * 100,
+      slrPercentage: (slr / 1.10) * 100,
+      peoplePercentage: (people / 280) * 100
+    };
+  }
+
+  // Create organic SVG path based on cursor position
+  function createOrganicPath(xPercent, slrPercent, peoplePercent) {
+    // Create a smooth curve that widens based on people affected
+    const points = [];
+    const numPoints = 20;
+
+    for (let i = 0; i <= numPoints; i++) {
+      const x = (i / numPoints) * xPercent;
+      const progress = i / numPoints;
+
+      // Calculate height at this x position
+      const currentSlr = (progress / (xPercent / 100)) * slrPercent;
+      const currentPeople = (progress / (xPercent / 100)) * peoplePercent;
+
+      // Y position (inverted because SVG y=0 is top)
+      const y = 100 - Math.min(currentSlr, 100);
+
+      // Width multiplier based on people affected (creates organic spreading)
+      const widthMultiplier = 1 + (currentPeople / 200);
+
+      points.push({ x, y, width: widthMultiplier });
+    }
+
+    // Build SVG path with smooth curves
+    let pathD = `M 0 100 L 0 100`;
+
+    if (points.length > 0) {
+      pathD = `M 0 100`;
+
+      for (let i = 0; i < points.length; i++) {
+        if (i === 0) {
+          pathD += ` L ${points[i].x} ${points[i].y}`;
+        } else {
+          const prevPoint = points[i - 1];
+          const cp1x = prevPoint.x + (points[i].x - prevPoint.x) * 0.5;
+          const cp1y = prevPoint.y;
+          const cp2x = prevPoint.x + (points[i].x - prevPoint.x) * 0.5;
+          const cp2y = points[i].y;
+
+          pathD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${points[i].x} ${points[i].y}`;
+        }
+      }
+
+      pathD += ` L ${xPercent} 100 L 0 100 Z`;
+    } else {
+      pathD = `M 0 100 L 0 100 L ${xPercent} 100 Z`;
+    }
+
+    return pathD;
+  }
+
+  // Handle mouse move
+  chart.addEventListener('mousemove', (e) => {
+    const rect = chart.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+
+    const data = calculateSLRFromPosition(x);
+
+    // Update danger overlay with organic path
+    const pathD = createOrganicPath(data.percentage, data.slrPercentage, data.peoplePercentage);
+    dangerPath.setAttribute('d', pathD);
+
+    // Update info panel
+    infoPanel.classList.add('active');
+    panelYear.textContent = data.year;
+    panelSLR.textContent = `+${data.slr}m`;
+    panelImpact.textContent = `${data.peopleDisplay} people at risk`;
+
+    // Update header stats
+    currentSLR.textContent = data.slr;
+    currentYear.textContent = data.year;
+  });
+
+  // Handle mouse enter
+  chart.addEventListener('mouseenter', () => {
+    infoPanel.classList.add('active');
+  });
+
+  // Handle mouse leave
+  chart.addEventListener('mouseleave', () => {
+    // Reset to 2100 values
+    const fullPath = createOrganicPath(100, 100, 100);
+    dangerPath.setAttribute('d', fullPath);
+    infoPanel.classList.remove('active');
+    currentSLR.textContent = '1.10';
+    currentYear.textContent = '2100';
+  });
+
+  // Initialize at full shape
+  setTimeout(() => {
+    const fullPath = createOrganicPath(100, 100, 100);
+    dangerPath.setAttribute('d', fullPath);
+  }, 500);
+}
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 
@@ -702,8 +937,13 @@ function init() {
   if (!prefersReducedMotion()) {
     initScrollAnimations();
     initCounters();
+    initNeonBarCharts();
+    initProgressBars();
     initParallax();
   }
+
+  // Interactive Chart
+  initInteractiveSLRChart();
 
   // Page-specific functionality
   initDocsNav();

@@ -1164,6 +1164,304 @@ function initInteractiveSLRChart() {
 }
 
 // ============================================================================
+// ANIMATED LETTER BACKGROUND
+// ============================================================================
+
+/**
+ * Wave effect class for ripple animations
+ */
+class Wave {
+  constructor(x, y, isSecondary = false, delayFrames = 0) {
+    this.x = x;
+    this.y = y;
+    this.radius = 0;
+    this.isSecondary = isSecondary;
+    this.delayFrames = delayFrames;
+    this.currentDelay = delayFrames;
+
+    if (isSecondary) {
+      this.maxRadius = 200;
+      this.speed = 2;
+    } else {
+      this.maxRadius = 300;
+      this.speed = 3;
+    }
+
+    this.opacity = 1;
+    this.lineWidth = 3;
+
+    // Use OSLRAT colors: cyan and yellow
+    const colors = [
+      { r: 0, g: 255, b: 255 },     // Neon Cyan
+      { r: 255, g: 215, b: 0 },     // Neon Yellow
+      { r: 0, g: 204, b: 255 },     // Light Blue
+      { r: 255, g: 193, b: 7 }      // Gold
+    ];
+    this.colorRGB = colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  update() {
+    if (this.currentDelay > 0) {
+      this.currentDelay--;
+      return true;
+    }
+
+    this.radius += this.speed;
+    this.opacity = 1 - (this.radius / this.maxRadius);
+    this.lineWidth = 3 * this.opacity;
+    return this.radius < this.maxRadius;
+  }
+
+  getColorInfluence(x, y) {
+    if (this.currentDelay > 0) {
+      return { influence: 0, color: null };
+    }
+
+    const dx = x - this.x;
+    const dy = y - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    const waveThickness = this.isSecondary ? 30 : 40;
+    const distFromWave = Math.abs(dist - this.radius);
+
+    if (distFromWave < waveThickness) {
+      const influence = (1 - distFromWave / waveThickness) * this.opacity;
+      return { influence, color: this.colorRGB };
+    }
+
+    return { influence: 0, color: null };
+  }
+}
+
+// Letter background global variables
+let matrixCanvas = null;
+let matrixCtx = null;
+let matrixCols = 0;
+let matrixRows = 0;
+let matrixCellSize = 24;
+let matrixLetters = [];
+let matrixAnimationId = null;
+let mousePos = { x: -9999, y: -9999 };
+let glowAlpha = 0;
+let hoverRadiusBase = 60;
+let hoverRadius = 60;
+let waves = [];
+const MAX_WAVES = 5;
+let isDragging = false;
+let lastWaveTime = 0;
+const WAVE_INTERVAL = 100;
+
+/**
+ * Initialize the animated letter background
+ */
+function initLetterBackground() {
+  const letterBackground = document.getElementById('letter-background');
+  if (!letterBackground) return;
+
+  // Clear previous
+  if (matrixAnimationId) cancelAnimationFrame(matrixAnimationId);
+  letterBackground.innerHTML = '';
+
+  // Create canvas
+  matrixCanvas = document.createElement('canvas');
+  matrixCtx = matrixCanvas.getContext('2d');
+  matrixCanvas.style.position = 'absolute';
+  matrixCanvas.style.top = '0';
+  matrixCanvas.style.left = '0';
+  matrixCanvas.style.width = '100%';
+  matrixCanvas.style.height = '100%';
+  letterBackground.appendChild(matrixCanvas);
+
+  const setup = () => {
+    const dpr = window.devicePixelRatio || 1;
+    const width = letterBackground.clientWidth;
+    const height = letterBackground.clientHeight;
+    matrixCanvas.width = Math.floor(width * dpr);
+    matrixCanvas.height = Math.floor(height * dpr);
+    matrixCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Responsive cell size
+    if (width < 480) matrixCellSize = 18;
+    else if (width < 768) matrixCellSize = 20;
+    else matrixCellSize = 24;
+
+    matrixCols = Math.ceil(width / matrixCellSize);
+    matrixRows = Math.ceil(height / matrixCellSize);
+    hoverRadiusBase = matrixCellSize * 5.4;
+    hoverRadius = hoverRadiusBase;
+
+    // Build grid letters from "SLR" and "Ultrathink"
+    const pool = ['S', 'L', 'R', 'U', 'l', 't', 'r', 'a', 't', 'h', 'i', 'n', 'k'];
+    matrixLetters = new Array(matrixRows * matrixCols).fill(null).map(() => ({
+      ch: pool[Math.floor(Math.random() * pool.length)],
+      shade: 160 + Math.floor(Math.random() * 50) // grey 160-210
+    }));
+  };
+
+  setup();
+
+  // Render loop
+  const render = () => {
+    const { width, height } = letterBackground.getBoundingClientRect();
+    matrixCtx.clearRect(0, 0, width, height);
+
+    // Randomly flicker letters
+    for (let i = 0; i < Math.floor((matrixRows * matrixCols) * 0.01); i++) {
+      const idx = Math.floor(Math.random() * matrixLetters.length);
+      const cell = matrixLetters[idx];
+      cell.shade = 140 + Math.floor(Math.random() * 80);
+
+      // Occasionally change character
+      if (Math.random() < 0.02) {
+        const pool = ['S', 'L', 'R', 'U', 'l', 't', 'r', 'a', 't', 'h', 'i', 'n', 'k'];
+        cell.ch = pool[Math.floor(Math.random() * pool.length)];
+      }
+    }
+
+    matrixCtx.textBaseline = 'middle';
+    matrixCtx.textAlign = 'center';
+    matrixCtx.font = `600 ${Math.floor(matrixCellSize * 0.8)}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
+
+    for (let row = 0; row < matrixRows; row++) {
+      for (let col = 0; col < matrixCols; col++) {
+        const idx = row * matrixCols + col;
+        const cell = matrixLetters[idx];
+        const x = col * matrixCellSize + matrixCellSize / 2;
+        const y = row * matrixCellSize + matrixCellSize / 2;
+
+        // Hover highlight
+        const dx = mousePos.x - x;
+        const dy = mousePos.y - y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const radius = hoverRadius;
+
+        let f = 0;
+        if (radius > 0) {
+          const d = Math.min(dist / radius, 1);
+          f = Math.pow(1 - d, 2.2);
+        }
+
+        // Calculate wave influence
+        let maxWaveInfluence = 0;
+        let waveColor = null;
+        for (const wave of waves) {
+          const waveData = wave.getColorInfluence(x, y);
+          if (waveData.influence > maxWaveInfluence) {
+            maxWaveInfluence = waveData.influence;
+            waveColor = waveData.color;
+          }
+        }
+
+        // Determine effect: hover or wave
+        const hoverInfluence = f * glowAlpha;
+        let finalInfluence, rAccent, gAccent, bAccent;
+
+        if (maxWaveInfluence > hoverInfluence) {
+          // Wave effect - use wave color
+          finalInfluence = maxWaveInfluence;
+          rAccent = waveColor.r;
+          gAccent = waveColor.g;
+          bAccent = waveColor.b;
+        } else {
+          // Hover effect - use cyan
+          finalInfluence = hoverInfluence;
+          rAccent = 0;
+          gAccent = 255;
+          bAccent = 255;
+        }
+
+        const g = cell.shade;
+        const rGrey = g, gGrey = g, bGrey = g, aGrey = 0.35;
+        const aAccent = 1.0;
+        const r = Math.round(rGrey + (rAccent - rGrey) * finalInfluence);
+        const gCh = Math.round(gGrey + (gAccent - gGrey) * finalInfluence);
+        const b = Math.round(bGrey + (bAccent - bGrey) * finalInfluence);
+        const a = aGrey + (aAccent - aGrey) * finalInfluence;
+        matrixCtx.fillStyle = `rgba(${r}, ${gCh}, ${b}, ${a})`;
+        matrixCtx.fillText(cell.ch, x, y);
+      }
+    }
+
+    // Update waves
+    waves = waves.filter(wave => wave.update());
+
+    // Ease hover radius and glow alpha
+    hoverRadius += (hoverRadiusBase - hoverRadius) * 0.08;
+    glowAlpha *= 0.96;
+
+    matrixAnimationId = requestAnimationFrame(render);
+  };
+
+  matrixAnimationId = requestAnimationFrame(render);
+
+  // Mouse move handler
+  const updateMouse = (clientX, clientY) => {
+    const rect = letterBackground.getBoundingClientRect();
+    mousePos.x = clientX - rect.left;
+    mousePos.y = clientY - rect.top;
+    glowAlpha = 1;
+    hoverRadius = hoverRadiusBase * 1.2;
+  };
+
+  window.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY));
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      updateMouse(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  });
+
+  // Click/touch to create waves
+  const createWave = (clientX, clientY) => {
+    const rect = letterBackground.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    if (waves.length < MAX_WAVES) {
+      waves.push(new Wave(x, y, false, 0));
+      // Add secondary waves for more effect
+      waves.push(new Wave(x, y, true, 5));
+      waves.push(new Wave(x, y, true, 10));
+    }
+  };
+
+  window.addEventListener('click', (e) => createWave(e.clientX, e.clientY));
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) {
+      createWave(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  });
+
+  // Dragging for continuous waves
+  window.addEventListener('mousedown', () => {
+    isDragging = true;
+    lastWaveTime = Date.now();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const now = Date.now();
+      if (now - lastWaveTime > WAVE_INTERVAL) {
+        createWave(e.clientX, e.clientY);
+        lastWaveTime = now;
+      }
+    }
+  });
+
+  // Resize handler
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      setup();
+    }, 250);
+  });
+}
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 
@@ -1171,6 +1469,10 @@ function initInteractiveSLRChart() {
  * Initialize all functionality when DOM is ready
  */
 function init() {
+  // Initialize letter background
+  if (!prefersReducedMotion()) {
+    initLetterBackground();
+  }
   // Core functionality
   initMobileNav();
   initStickyNav();

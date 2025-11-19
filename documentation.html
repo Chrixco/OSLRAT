@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complete documentation for OSLRAT - installation, usage, API reference, and examples">
     <title>Documentation - OSLRAT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -28,7 +29,8 @@
                 <li class="nav__item"><a href="methodology.html" class="nav__link">Methodology</a></li>
                 <li class="nav__item"><a href="documentation.html" class="nav__link nav__link--active">Documentation</a></li>
                 <li class="nav__item"><a href="contact.html" class="nav__link">Contact</a></li>
-                <li class="nav__item"><a href="https://github.com/yourusername/OSLRAT" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
+                <li class="nav__item"><a href="support.html" class="nav__link">Support</a></li>
+                <li class="nav__item"><a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
         </div>
     </nav>
@@ -90,17 +92,20 @@
                         <article id="getting-started" class="docs-section" data-animate="fade-up">
                             <h2 class="docs-section__title">Getting Started</h2>
                             <p class="docs-section__text">
-                                OSLRAT is designed to be accessible to users with varying levels of
-                                technical expertise. Whether you're using the web interface or the
-                                Python library, this guide will help you get up and running quickly.
+                                OSLRAT (SLR Vulnerability Mapper) is a professional QGIS plugin for mapping sea-level rise
+                                vulnerability and flood exposure in coastal regions. It provides a comprehensive suite of
+                                19 processing algorithms organized into 5 categories for complete coastal analysis workflows.
                             </p>
 
                             <div class="info-box info-box--info">
-                                <h4 class="info-box__title">Prerequisites</h4>
+                                <h4 class="info-box__title">System Requirements</h4>
                                 <ul class="info-box__list">
-                                    <li>Python 3.8 or higher (for Python API)</li>
-                                    <li>Modern web browser (for web interface)</li>
-                                    <li>Basic understanding of sea-level rise concepts</li>
+                                    <li><strong>QGIS:</strong> Version 3.30 or higher</li>
+                                    <li><strong>Python:</strong> 3.9+ (included with QGIS)</li>
+                                    <li><strong>RAM:</strong> 8GB minimum, 16GB+ recommended for large DEMs</li>
+                                    <li><strong>Disk Space:</strong> 500MB for plugin + datasets</li>
+                                    <li><strong>Internet:</strong> Required for DEM downloads (OpenTopography API)</li>
+                                    <li><strong>Operating System:</strong> Windows 7+, macOS 10.13+, Linux (Ubuntu 16.04+)</li>
                                 </ul>
                             </div>
                         </article>
@@ -109,74 +114,95 @@
                         <article id="installation" class="docs-section" data-animate="fade-up">
                             <h2 class="docs-section__title">Installation</h2>
 
-                            <h3 class="docs-section__subtitle">Using pip (Recommended)</h3>
+                            <h3 class="docs-section__subtitle">Method 1: QGIS Plugin Repository (Recommended)</h3>
                             <p class="docs-section__text">
-                                Install OSLRAT using pip:
+                                Install directly from the QGIS Plugin Manager:
                             </p>
-                            <div class="code-block">
-                                <div class="code-block__header">
-                                    <span class="code-block__language">bash</span>
-                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
-                                </div>
-                                <pre class="code-block__content"><code>pip install oslrat</code></pre>
-                            </div>
+                            <ol class="info-box__list">
+                                <li>Open QGIS 3.30 or higher</li>
+                                <li>Go to <strong>Plugins → Manage and Install Plugins</strong></li>
+                                <li>Search for "SLR Vulnerability Mapper" or "OSLRAT"</li>
+                                <li>Click <strong>Install Plugin</strong></li>
+                                <li>Restart QGIS to activate</li>
+                            </ol>
 
-                            <h3 class="docs-section__subtitle">From Source</h3>
+                            <h3 class="docs-section__subtitle">Method 2: Manual Installation</h3>
                             <p class="docs-section__text">
-                                For the latest development version:
+                                Download and install manually from GitHub:
                             </p>
                             <div class="code-block">
                                 <div class="code-block__header">
                                     <span class="code-block__language">bash</span>
                                     <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
                                 </div>
-                                <pre class="code-block__content"><code>git clone https://github.com/yourusername/OSLRAT.git
-cd OSLRAT
-pip install -e .</code></pre>
+                                <pre class="code-block__content"><code># Download from GitHub Releases
+git clone https://github.com/christianxcorral/slr_vulnerability_mapper.git
+
+# Copy to QGIS plugins directory:
+# Windows: C:\Users\&lt;User&gt;\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins\
+# macOS: ~/Library/Application Support/QGIS/QGIS3/profiles/default/python/plugins/
+# Linux: ~/.local/share/QGIS/QGIS3/profiles/default/python/plugins/</code></pre>
                             </div>
 
                             <h3 class="docs-section__subtitle">Verify Installation</h3>
-                            <div class="code-block">
-                                <div class="code-block__header">
-                                    <span class="code-block__language">python</span>
-                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
-                                </div>
-                                <pre class="code-block__content"><code>import oslrat
-print(oslrat.__version__)</code></pre>
-                            </div>
+                            <p class="docs-section__text">
+                                After installation, verify the plugin is active:
+                            </p>
+                            <ol class="info-box__list">
+                                <li>Go to <strong>Plugins → Manage and Install Plugins → Installed</strong></li>
+                                <li>Ensure "SLR Vulnerability Mapper" is checked/enabled</li>
+                                <li>Look for the plugin icon in the toolbar (sea wave icon)</li>
+                                <li>Access algorithms via <strong>Processing → Toolbox → SLR Vulnerability</strong></li>
+                            </ol>
                         </article>
 
                         <!-- Quick Start -->
                         <article id="quick-start" class="docs-section" data-animate="fade-up">
                             <h2 class="docs-section__title">Quick Start</h2>
                             <p class="docs-section__text">
-                                Here's a simple example to get you started with OSLRAT:
+                                Here's a simple workflow to perform your first sea-level rise flood analysis:
                             </p>
 
-                            <div class="code-block">
-                                <div class="code-block__header">
-                                    <span class="code-block__language">python</span>
-                                    <button class="code-block__copy" onclick="copyCode(this)">Copy</button>
-                                </div>
-                                <pre class="code-block__content"><code>import oslrat
+                            <h3 class="docs-section__subtitle">Basic Flood Mapping Workflow</h3>
+                            <ol class="process-steps">
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Step 1: Download DEM</h4>
+                                    <p class="process-step__text">
+                                        Open <strong>Processing Toolbox → SLR Vulnerability → Data Preparation → Fetch DEM from OpenTopography</strong><br>
+                                        Select your coastal area extent, choose resolution (30m or 90m), and download.
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Step 2: Prepare Area of Interest (AOI)</h4>
+                                    <p class="process-step__text">
+                                        Create or import a polygon layer defining your study area (cities, neighborhoods, parcels).
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Step 3: Run Flood Scenario</h4>
+                                    <p class="process-step__text">
+                                        Open <strong>SLR Vulnerability → Flood Exposure → DEM Flood Scenario (AR6 CSV)</strong><br>
+                                        Select: DEM layer, AOI polygons, SSP scenario (e.g., SSP2-4.5), Year (e.g., 2100), Percentile (p50 median)
+                                    </p>
+                                </li>
+                                <li class="process-step">
+                                    <h4 class="process-step__title">Step 4: View Results</h4>
+                                    <p class="process-step__text">
+                                        Output includes: Binary flood raster (1=flooded, 0=dry) and AOI polygons with statistics
+                                        (flooded area, percentage, impact metrics)
+                                    </p>
+                                </li>
+                            </ol>
 
-# Initialize the assessment tool
-slr = oslrat.SeaLevelRise()
-
-# Load data for a specific location
-location = slr.load_location(lat=37.7749, lon=-122.4194)  # San Francisco
-
-# Get projections for different scenarios
-projections = location.get_projections(
-    scenarios=['SSP1-2.6', 'SSP2-4.5', 'SSP5-8.5'],
-    years=[2030, 2050, 2100]
-)
-
-# Visualize the results
-location.plot_projections(projections)
-
-# Export data
-projections.to_csv('san_francisco_slr.csv')</code></pre>
+                            <div class="info-box info-box--info">
+                                <h4 class="info-box__title">Algorithm Categories</h4>
+                                <ul class="info-box__list">
+                                    <li><strong>Data Preparation (4 algorithms):</strong> DEM fetch, vector/raster conversion, CRS reprojection</li>
+                                    <li><strong>Flood Exposure (6 algorithms):</strong> AR6 scenarios, compound flooding, batch processing</li>
+                                    <li><strong>Social Analysis (1 algorithm):</strong> Social Vulnerability Index (SVI)</li>
+                                    <li><strong>Terrain Analysis (3 algorithms):</strong> Slope, aspect, hillshade</li>
+                                    <li><strong>Visualization (4 algorithms):</strong> Heatmaps, area comparison, population impact</li>
+                                </ul>
                             </div>
                         </article>
 
@@ -371,57 +397,73 @@ report.export('assessment_report.html', interactive=True)</code></pre>
 
                         <!-- API Reference -->
                         <article id="api" class="docs-section" data-animate="fade-up">
-                            <h2 class="docs-section__title">API Reference</h2>
+                            <h2 class="docs-section__title">Processing Algorithms Reference</h2>
+                            <p class="docs-section__text">
+                                OSLRAT provides 19 processing algorithms accessible via the QGIS Processing Toolbox.
+                                All algorithms support batch processing and can be integrated into QGIS models.
+                            </p>
 
-                            <h3 class="docs-section__subtitle">Core Classes</h3>
-
+                            <h3 class="docs-section__subtitle">Flood Exposure Algorithms (6)</h3>
                             <div class="api-item">
-                                <h4 class="api-item__title">oslrat.SeaLevelRise</h4>
+                                <h4 class="api-item__title">DEM Flood Scenario (AR6 CSV)</h4>
                                 <p class="api-item__description">
-                                    Main class for sea-level rise analysis and projections.
+                                    Maps inundation using IPCC AR6 sea-level projections. Select SSP scenario, year (2020-2150),
+                                    and percentile (p05, p17, p50, p83, p95). Outputs binary flood raster and per-polygon statistics.
                                 </p>
-                                <div class="code-block">
-                                    <pre class="code-block__content"><code>SeaLevelRise(
-    data_source='auto',
-    cache_dir=None,
-    verbose=True
-)</code></pre>
-                                </div>
-                                <h5 class="api-item__subtitle">Parameters:</h5>
-                                <ul class="api-item__params">
-                                    <li><code>data_source</code> (str): Data source to use. Options: 'auto', 'ipcc', 'noaa'</li>
-                                    <li><code>cache_dir</code> (str): Directory for caching downloaded data</li>
-                                    <li><code>verbose</code> (bool): Enable verbose output</li>
-                                </ul>
                             </div>
 
                             <div class="api-item">
-                                <h4 class="api-item__title">oslrat.Location</h4>
+                                <h4 class="api-item__title">DEM Flood + Return Period (CODEC)</h4>
                                 <p class="api-item__description">
-                                    Represents a specific geographic location for analysis.
+                                    Combines AR6 baseline SLR with CODEC storm surge return periods (1, 10, 50, 100, 1000-year events)
+                                    for compound flooding scenarios. Automatically selects nearest coastal station.
                                 </p>
-                                <div class="code-block">
-                                    <pre class="code-block__content"><code>Location(
-    latitude,
-    longitude,
-    name=None,
-    elevation=None
-)</code></pre>
-                                </div>
                             </div>
 
                             <div class="api-item">
-                                <h4 class="api-item__title">oslrat.RiskAssessment</h4>
+                                <h4 class="api-item__title">Inundation Mapping</h4>
                                 <p class="api-item__description">
-                                    Conducts comprehensive coastal risk assessments.
+                                    Simple threshold-based flood mapping with user-defined water level (metres).
                                 </p>
-                                <div class="code-block">
-                                    <pre class="code-block__content"><code>RiskAssessment(
-    study_area,
-    dem_resolution='30m',
-    include_subsidence=True
-)</code></pre>
-                                </div>
+                            </div>
+
+                            <div class="api-item">
+                                <h4 class="api-item__title">Point Flood Heatmap</h4>
+                                <p class="api-item__description">
+                                    Creates heatmap visualization of flooded areas using regular point grid. Applies Magma color ramp.
+                                </p>
+                            </div>
+
+                            <h3 class="docs-section__subtitle">Data Preparation (4)</h3>
+                            <ul class="api-item__params">
+                                <li><strong>Fetch DEM from OpenTopography:</strong> Automated Copernicus DEM download (30m/90m)</li>
+                                <li><strong>Reproject Vector:</strong> CRS transformation for vector layers</li>
+                                <li><strong>Vector to Raster:</strong> Convert polygons/points to raster grid</li>
+                                <li><strong>Raster to Vector:</strong> Polygonize raster cells to features</li>
+                            </ul>
+
+                            <h3 class="docs-section__subtitle">Social & Impact Analysis (5)</h3>
+                            <ul class="api-item__params">
+                                <li><strong>Social Vulnerability Index (SVI):</strong> Composite vulnerability score from demographic indicators</li>
+                                <li><strong>Area Comparison Analysis:</strong> Compare total vs. inundated area with ratios and percentages</li>
+                                <li><strong>Population Impact Analysis:</strong> Calculate population affected by flooding</li>
+                                <li><strong>Feature Comparison:</strong> Attribute-based feature analysis</li>
+                                <li><strong>Inundation Heatmap Visualization:</strong> Interactive chart generation</li>
+                            </ul>
+
+                            <h3 class="docs-section__subtitle">Terrain Analysis (3)</h3>
+                            <ul class="api-item__params">
+                                <li><strong>Slope Analysis:</strong> Calculate slope in degrees from DEM</li>
+                                <li><strong>Aspect Analysis:</strong> Compute aspect (direction of slope)</li>
+                                <li><strong>Hillshade:</strong> Generate shaded relief visualization</li>
+                            </ul>
+
+                            <div class="info-box info-box--info">
+                                <h4 class="info-box__title">Data Formats</h4>
+                                <p class="info-box__text">
+                                    <strong>Inputs:</strong> GeoTIFF, IMG, HDF, NetCDF (raster); Shapefile, GeoPackage, GeoJSON (vector)<br>
+                                    <strong>Outputs:</strong> GeoTIFF (DEFLATE compressed), Shapefile, GeoPackage, CSV reports
+                                </p>
                             </div>
                         </article>
 
@@ -477,7 +519,7 @@ pip install oslrat</code></pre>
                                     If you're still experiencing issues:
                                 </p>
                                 <ul class="info-box__list">
-                                    <li>Check the <a href="https://github.com/yourusername/OSLRAT/issues">GitHub Issues</a> page</li>
+                                    <li>Check the <a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool/issues">GitHub Issues</a> page</li>
                                     <li>Join our community discussion forum</li>
                                     <li><a href="contact.html">Contact the development team</a></li>
                                 </ul>
@@ -494,7 +536,7 @@ pip install oslrat</code></pre>
                                         Learn about the scientific foundations of OSLRAT
                                     </p>
                                 </a>
-                                <a href="https://github.com/yourusername/OSLRAT/tree/main/examples" class="next-step-card" target="_blank" rel="noopener">
+                                <a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool/tree/main/examples" class="next-step-card" target="_blank" rel="noopener">
                                     <h3 class="next-step-card__title">View Examples</h3>
                                     <p class="next-step-card__text">
                                         Explore complete code examples and tutorials
@@ -541,7 +583,7 @@ pip install oslrat</code></pre>
                 <div class="footer__section">
                     <h4 class="footer__heading">Resources</h4>
                     <ul class="footer__links">
-                        <li><a href="https://github.com/yourusername/OSLRAT" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
+                        <li><a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
                         <li><a href="contact.html" class="footer__link">Contact Us</a></li>
                         <li><a href="#" class="footer__link">API Documentation</a></li>
                         <li><a href="#" class="footer__link">Contribute</a></li>

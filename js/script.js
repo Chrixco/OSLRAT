@@ -767,6 +767,8 @@ function initInteractiveSLRChart() {
   const panelImpact = document.getElementById('panelImpact');
   const currentSLR = document.getElementById('current-slr');
   const currentYear = document.getElementById('current-year');
+  const dropletsGroup = document.getElementById('dropletsGroup');
+  const splashesGroup = document.getElementById('splashesGroup');
 
   // SLR data points based on IPCC AR6 (2021) SSP5-8.5 scenario
   // Values relative to 1995-2014 baseline
@@ -838,33 +840,55 @@ function initInteractiveSLRChart() {
     };
   }
 
-  // Create organic SVG path based on cursor position
+  // Fluid physics state
+  let fluidState = {
+    targetX: 100,
+    targetCost: 93.3,
+    currentX: 100,
+    currentCost: 93.3,
+    velocityX: 0,
+    velocityCost: 0,
+    waveOffset: 0,
+    waveVelocity: 0,
+    isAnimating: false,
+    lastMouseX: 0,
+    lastMouseTime: 0,
+    mouseVelocity: 0,
+    droplets: [], // Active water droplets
+    splashes: []  // Active splash particles
+  };
+
+  // Create organic SVG path with fluid wave motion
   // xPercent = SLR progress (0-100), costPercent = economic cost (0-100)
-  function createOrganicPath(xPercent, costPercent, peoplePercent) {
+  function createFluidPath(xPercent, costPercent, peoplePercent, waveOffset = 0) {
     // Create a smooth curve that grows in height (cost) as we move right (SLR)
     const points = [];
-    const numPoints = 20;
+    const numPoints = 30; // More points for smoother wave motion
 
     for (let i = 0; i <= numPoints; i++) {
       const progress = i / numPoints; // 0 to 1
       const x = progress * xPercent; // X position from 0 to cursor position (SLR)
 
       // Height grows from 0 to target economic cost at cursor position
-      // At progress=0 (start), height=0
-      // At progress=1 (cursor position), height=costPercent
       const currentCost = progress * costPercent;
       const currentPeople = progress * peoplePercent;
 
-      // Y position (inverted because SVG y=0 is top)
-      const y = 100 - currentCost;
+      // Add wave motion (like water sloshing) - visible slow waves
+      const waveFrequency = 2.5; // Multiple waves for sloshing effect
+      const waveAmplitude = 1.5 + (currentCost / 100) * 2.5; // Visible wave motion
+      const wave = Math.sin(progress * Math.PI * waveFrequency + waveOffset) * waveAmplitude;
 
-      // Width multiplier based on people affected (creates organic spreading)
-      const widthMultiplier = 1 + (currentPeople / 200);
+      // Surface tension effect at the edge - realistic water behavior
+      const edgeDistance = Math.abs(progress - 1.0);
+      const surfaceTension = edgeDistance < 0.15 ? Math.sin(edgeDistance * Math.PI * 5) * 1.2 : 0;
 
-      points.push({ x, y, width: widthMultiplier });
+      // Y position with wave and surface tension (inverted because SVG y=0 is top)
+      const y = 100 - currentCost + wave + surfaceTension;
+
+      points.push({ x, y, cost: currentCost });
     }
 
-    // Build SVG path with smooth curves
+    // Build SVG path with smooth Bezier curves
     let pathD = `M 0 100`;
 
     for (let i = 0; i < points.length; i++) {
@@ -872,10 +896,13 @@ function initInteractiveSLRChart() {
         pathD += ` L ${points[i].x} ${points[i].y}`;
       } else {
         const prevPoint = points[i - 1];
-        const cp1x = prevPoint.x + (points[i].x - prevPoint.x) * 0.5;
-        const cp1y = prevPoint.y;
-        const cp2x = prevPoint.x + (points[i].x - prevPoint.x) * 0.5;
-        const cp2y = points[i].y;
+
+        // Adaptive control points for smoother fluid motion
+        const tension = 0.4;
+        const cp1x = prevPoint.x + (points[i].x - prevPoint.x) * tension;
+        const cp1y = prevPoint.y + (points[i].y - prevPoint.y) * 0.2;
+        const cp2x = prevPoint.x + (points[i].x - prevPoint.x) * (1 - tension);
+        const cp2y = points[i].y - (points[i].y - prevPoint.y) * 0.2;
 
         pathD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${points[i].x} ${points[i].y}`;
       }
@@ -886,17 +913,164 @@ function initInteractiveSLRChart() {
     return pathD;
   }
 
+  // Physics animation loop for fluid motion
+  function animateFluid() {
+    if (!fluidState.isAnimating) return;
+
+    // Graph follows mouse instantly, only waves are slow
+    const baseSpringStrength = 0.3; // Fast response - graph follows cursor immediately
+    const velocityMultiplier = Math.min(Math.abs(fluidState.mouseVelocity) * 0.5, 2.0);
+    const springStrength = baseSpringStrength * (1 + velocityMultiplier);
+
+    const damping = 0.75; // Low damping - snappy response for graph position
+
+    // Calculate forces
+    const forceX = (fluidState.targetX - fluidState.currentX) * springStrength;
+    const forceCost = (fluidState.targetCost - fluidState.currentCost) * springStrength;
+
+    // Update velocities with damping
+    fluidState.velocityX = (fluidState.velocityX + forceX) * damping;
+    fluidState.velocityCost = (fluidState.velocityCost + forceCost) * damping;
+
+    // Update positions
+    fluidState.currentX += fluidState.velocityX;
+    fluidState.currentCost += fluidState.velocityCost;
+
+    // Wave motion (oscillates back and forth) - VERY SLOW waves on fast-moving water
+    const waveDecay = 0.995; // Very slow decay = waves persist much longer
+    const waveResponse = 0.02; // Low response - 10x slower reaction to height changes
+    fluidState.waveVelocity += (fluidState.velocityCost * waveResponse);
+
+    // Add extra waves from mouse velocity - much more subtle
+    fluidState.waveVelocity += (fluidState.mouseVelocity * 0.015);
+
+    fluidState.waveVelocity *= waveDecay;
+    fluidState.waveOffset += fluidState.waveVelocity * 0.03; // 10x slower wave propagation
+
+    // Decay mouse velocity over time - slower decay
+    fluidState.mouseVelocity *= 0.95;
+
+    // Update droplets (falling water drops)
+    fluidState.droplets = fluidState.droplets.filter(droplet => {
+      droplet.y += droplet.velocity;
+      droplet.velocity += 0.3; // Gravity
+      droplet.life -= 1;
+      return droplet.life > 0 && droplet.y < 100;
+    });
+
+    // Update splashes (particles from impact)
+    fluidState.splashes = fluidState.splashes.filter(splash => {
+      splash.x += splash.vx;
+      splash.y += splash.vy;
+      splash.vy += 0.15; // Gravity on splash particles
+      splash.life -= 1;
+      splash.opacity = splash.life / splash.maxLife;
+      return splash.life > 0;
+    });
+
+    // Update the path
+    const pathD = createFluidPath(
+      fluidState.currentX,
+      fluidState.currentCost,
+      100,
+      fluidState.waveOffset
+    );
+    dangerPath.setAttribute('d', pathD);
+
+    // Render droplets
+    if (dropletsGroup) {
+      dropletsGroup.innerHTML = fluidState.droplets.map(droplet =>
+        `<circle cx="${droplet.x}" cy="${droplet.y}" r="${droplet.size}"
+         fill="url(#dropletGradient)" opacity="${droplet.life / 60}" />`
+      ).join('');
+    }
+
+    // Render splashes
+    if (splashesGroup) {
+      splashesGroup.innerHTML = fluidState.splashes.map(splash =>
+        `<circle cx="${splash.x}" cy="${splash.y}" r="${splash.size}"
+         fill="#00ffff" opacity="${splash.opacity * 0.6}" />`
+      ).join('');
+    }
+
+    // Stop animating if settled - graph stops quickly, waves continue longer
+    const isSettled =
+      Math.abs(fluidState.velocityX) < 0.1 &&
+      Math.abs(fluidState.velocityCost) < 0.1 &&
+      Math.abs(fluidState.waveVelocity) < 0.001; // Tighter threshold for longer wave animations
+
+    if (isSettled) {
+      fluidState.isAnimating = false;
+    } else {
+      requestAnimationFrame(animateFluid);
+    }
+  }
+
   // Handle mouse move
   chart.addEventListener('mousemove', (e) => {
     const rect = chart.getBoundingClientRect();
     const x = e.clientX - rect.left;
 
+    // Calculate mouse velocity (pixels per millisecond)
+    const currentTime = Date.now();
+    const deltaTime = currentTime - fluidState.lastMouseTime;
+
+    if (deltaTime > 0 && fluidState.lastMouseTime > 0) {
+      const deltaX = x - fluidState.lastMouseX;
+      const instantVelocity = deltaX / deltaTime;
+
+      // Smooth velocity using exponential moving average
+      fluidState.mouseVelocity = fluidState.mouseVelocity * 0.7 + instantVelocity * 0.3;
+
+      // Create droplets when moving fast
+      if (Math.abs(instantVelocity) > 0.5 && Math.random() < 0.3) {
+        const dropletX = (x / rect.width) * 100;
+        const dropletY = -5 - Math.random() * 10; // Start above the visible area
+
+        fluidState.droplets.push({
+          x: dropletX,
+          y: dropletY,
+          velocity: 0.5 + Math.random() * 1,
+          life: 60,
+          size: 0.8 + Math.random() * 1.5
+        });
+      }
+    }
+
+    fluidState.lastMouseX = x;
+    fluidState.lastMouseTime = currentTime;
+
     const data = calculateDataFromPosition(x);
 
-    // Update danger overlay with organic path
-    // X = SLR percentage, Y = cost percentage
-    const pathD = createOrganicPath(data.percentage, data.costPercentage, data.peoplePercentage);
-    dangerPath.setAttribute('d', pathD);
+    // Set new targets for fluid physics
+    fluidState.targetX = data.percentage;
+    fluidState.targetCost = data.costPercentage;
+
+    // Create splash when water level changes significantly
+    if (Math.abs(fluidState.velocityCost) > 2) {
+      const splashX = data.percentage;
+      const splashY = 100 - data.costPercentage;
+
+      // Create multiple splash particles
+      for (let i = 0; i < 3; i++) {
+        fluidState.splashes.push({
+          x: splashX + (Math.random() - 0.5) * 5,
+          y: splashY,
+          vx: (Math.random() - 0.5) * 2,
+          vy: -2 - Math.random() * 2,
+          life: 30 + Math.random() * 20,
+          maxLife: 50,
+          opacity: 1,
+          size: 0.5 + Math.random() * 1
+        });
+      }
+    }
+
+    // Start animation if not already running
+    if (!fluidState.isAnimating) {
+      fluidState.isAnimating = true;
+      requestAnimationFrame(animateFluid);
+    }
 
     // Update info panel
     infoPanel.classList.add('active');
@@ -914,20 +1088,78 @@ function initInteractiveSLRChart() {
     infoPanel.classList.add('active');
   });
 
+  // Touch support for mobile
+  chart.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = chart.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+
+    const data = calculateDataFromPosition(x);
+
+    // Set new targets for fluid physics
+    fluidState.targetX = data.percentage;
+    fluidState.targetCost = data.costPercentage;
+
+    if (!fluidState.isAnimating) {
+      fluidState.isAnimating = true;
+      requestAnimationFrame(animateFluid);
+    }
+
+    // Update info panel
+    infoPanel.classList.add('active');
+    panelYear.textContent = data.year;
+    panelSLR.textContent = `+${data.slr}m SLR`;
+    panelImpact.textContent = `$${data.cost}T economic loss`;
+
+    if (currentSLR) currentSLR.textContent = `$${data.cost}`;
+    currentYear.textContent = data.year;
+  });
+
+  chart.addEventListener('touchend', () => {
+    // Animate back to 2100 values
+    fluidState.targetX = 100;
+    fluidState.targetCost = 93.3;
+
+    if (!fluidState.isAnimating) {
+      fluidState.isAnimating = true;
+      requestAnimationFrame(animateFluid);
+    }
+
+    setTimeout(() => {
+      infoPanel.classList.remove('active');
+      if (currentSLR) currentSLR.textContent = '$14';
+      currentYear.textContent = '2100';
+    }, 300);
+  });
+
   // Handle mouse leave
   chart.addEventListener('mouseleave', () => {
-    // Reset to 2100 values (0.84m SLR = 100% X, $14T = 93.3% of $15T max Y)
-    const fullPath = createOrganicPath(100, 93.3, 100);
-    dangerPath.setAttribute('d', fullPath);
+    // Animate back to 2100 values with fluid motion
+    fluidState.targetX = 100;
+    fluidState.targetCost = 93.3;
+
+    if (!fluidState.isAnimating) {
+      fluidState.isAnimating = true;
+      requestAnimationFrame(animateFluid);
+    }
+
     infoPanel.classList.remove('active');
     if (currentSLR) currentSLR.textContent = '$14';
     currentYear.textContent = '2100';
   });
 
-  // Initialize at full shape (2100 values: $14T = 93.3% of $15T scale)
+  // Initialize at full shape with gentle wave animation
   setTimeout(() => {
-    const fullPath = createOrganicPath(100, 93.3, 100);
-    dangerPath.setAttribute('d', fullPath);
+    fluidState.currentX = 100;
+    fluidState.currentCost = 93.3;
+    fluidState.targetX = 100;
+    fluidState.targetCost = 93.3;
+
+    // Start with a small wave motion
+    fluidState.waveVelocity = 0.2;
+    fluidState.isAnimating = true;
+    requestAnimationFrame(animateFluid);
   }, 500);
 }
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Scientific methodology and data sources behind OSLRAT's sea-level rise projections">
     <title>Methodology - OSLRAT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -28,7 +29,8 @@
                 <li class="nav__item"><a href="methodology.html" class="nav__link nav__link--active">Methodology</a></li>
                 <li class="nav__item"><a href="documentation.html" class="nav__link">Documentation</a></li>
                 <li class="nav__item"><a href="contact.html" class="nav__link">Contact</a></li>
-                <li class="nav__item"><a href="https://github.com/yourusername/OSLRAT" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
+                <li class="nav__item"><a href="support.html" class="nav__link">Support</a></li>
+                <li class="nav__item"><a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool" class="nav__link nav__link--cta" target="_blank" rel="noopener">GitHub</a></li>
             </ul>
         </div>
     </nav>
@@ -76,68 +78,66 @@
 
                             <div class="data-source">
                                 <div class="data-source__header">
-                                    <h3 class="data-source__title">IPCC Assessment Reports</h3>
+                                    <h3 class="data-source__title">IPCC AR6 Global Sea-Level Projections</h3>
                                     <span class="data-source__badge">Primary Source</span>
                                 </div>
                                 <p class="data-source__description">
-                                    We use sea-level projections from the IPCC Sixth Assessment Report (AR6),
-                                    which represents the consensus of thousands of climate scientists worldwide.
-                                    These projections incorporate:
+                                    OSLRAT uses the official IPCC Sixth Assessment Report (AR6, 2021) global mean sea-level
+                                    projections dataset. This comprehensive dataset includes:
                                 </p>
                                 <ul class="data-source__list">
-                                    <li>Global mean sea-level rise projections under different emission scenarios (SSP1-1.9 through SSP5-8.5)</li>
-                                    <li>Regional sea-level change patterns from coupled climate models</li>
-                                    <li>Contributions from thermal expansion, glacier melt, and ice sheet dynamics</li>
-                                    <li>Uncertainty quantification using ensemble modeling</li>
+                                    <li><strong>Time Range:</strong> 2020-2150 (10-year intervals, 130-year projections)</li>
+                                    <li><strong>Scenarios:</strong> All five SSP pathways (SSP1-1.9, SSP1-2.6, SSP2-4.5, SSP3-7.0, SSP5-8.5)</li>
+                                    <li><strong>Uncertainty Quantiles:</strong> p05, p17, p50 (median), p83, p95 percentiles</li>
+                                    <li><strong>Process Components:</strong> Thermal expansion, glacier mass loss, Greenland/Antarctic ice sheet contributions, land water storage</li>
+                                    <li><strong>Confidence Levels:</strong> Medium and low confidence estimates for different processes</li>
                                 </ul>
+                                <p class="data-source__description">
+                                    <strong>Example Values (SSP2-4.5, median p50):</strong> 0.09m by 2030, 0.56m by 2100, 1.05m by 2150
+                                </p>
                             </div>
 
                             <div class="data-source">
                                 <div class="data-source__header">
-                                    <h3 class="data-source__title">NOAA Sea Level Rise Data</h3>
-                                    <span class="data-source__badge">Regional Data</span>
+                                    <h3 class="data-source__title">CODEC Extreme Sea Level Dataset</h3>
+                                    <span class="data-source__badge">Storm Surge Data</span>
                                 </div>
                                 <p class="data-source__description">
-                                    High-resolution projections for U.S. coastal areas, including:
+                                    The Coastal Dataset for Evaluating Extremes (CODEC) provides global extreme sea-level statistics
+                                    derived from tide gauge records (Dullaart et al., 2020). Key features:
                                 </p>
                                 <ul class="data-source__list">
-                                    <li>Tide gauge measurements and historical trends</li>
-                                    <li>Regional variations in sea-level change</li>
-                                    <li>Vertical land motion (subsidence/uplift) corrections</li>
-                                    <li>Probabilistic projections with confidence intervals</li>
+                                    <li><strong>Global Coverage:</strong> Worldwide coastal stations with return period estimates</li>
+                                    <li><strong>Return Periods:</strong> 1, 2, 5, 10, 25, 50, 100, 250, 500, and 1000-year events</li>
+                                    <li><strong>Statistical Model:</strong> Gumbel Distribution (Extreme Value Type I) for annual maxima</li>
+                                    <li><strong>Parameters:</strong> Location (μ) and scale (β) fitted to observed water levels</li>
+                                    <li><strong>Datum:</strong> Heights referenced to Mean Sea Level (MSL)</li>
                                 </ul>
-                            </div>
-
-                            <div class="data-source">
-                                <div class="data-source__header">
-                                    <h3 class="data-source__title">NASA Sea Level Change Portal</h3>
-                                    <span class="data-source__badge">Satellite Observations</span>
-                                </div>
                                 <p class="data-source__description">
-                                    Satellite altimetry data providing:
+                                    <strong>Application:</strong> Combined with SLR projections to model compound flooding scenarios
+                                    (baseline sea-level rise + storm surge events).
                                 </p>
-                                <ul class="data-source__list">
-                                    <li>Global sea-level observations since 1993</li>
-                                    <li>High-precision measurements of sea surface height</li>
-                                    <li>Regional and global sea-level trends</li>
-                                    <li>Validation data for model projections</li>
-                                </ul>
                             </div>
 
                             <div class="data-source">
                                 <div class="data-source__header">
-                                    <h3 class="data-source__title">Digital Elevation Models</h3>
+                                    <h3 class="data-source__title">Copernicus Digital Elevation Model</h3>
                                     <span class="data-source__badge">Topography</span>
                                 </div>
                                 <p class="data-source__description">
-                                    High-resolution elevation data for coastal vulnerability assessment:
+                                    OSLRAT integrates with OpenTopography to automatically download Copernicus DEM data for any coastal region:
                                 </p>
                                 <ul class="data-source__list">
-                                    <li>SRTM (Shuttle Radar Topography Mission) global coverage</li>
-                                    <li>USGS 3DEP for detailed U.S. coastal areas</li>
-                                    <li>Lidar-derived DEMs where available</li>
-                                    <li>Bathymetric data for offshore areas</li>
+                                    <li><strong>Resolutions:</strong> 30m and 90m global coverage (85°N to 60°S)</li>
+                                    <li><strong>Vertical Datum:</strong> WGS84 ellipsoid</li>
+                                    <li><strong>Accuracy:</strong> ±3-5m RMSE (root mean square error)</li>
+                                    <li><strong>API Integration:</strong> Automated download via OpenTopography API</li>
+                                    <li><strong>Processing:</strong> Automatic reprojection and resampling to target CRS and resolution</li>
                                 </ul>
+                                <p class="data-source__description">
+                                    <strong>Note:</strong> Users can also import higher-resolution Lidar DEMs or local elevation data
+                                    where available for improved accuracy in critical areas.
+                                </p>
                             </div>
                         </article>
 
@@ -237,24 +237,29 @@
                             </ol>
 
                             <div class="info-box info-box--info">
-                                <h4 class="info-box__title">Mathematical Formulation</h4>
+                                <h4 class="info-box__title">Flood Mapping Algorithm</h4>
                                 <p class="info-box__text">
-                                    Local relative sea-level change is calculated as:
+                                    OSLRAT uses a static water-level threshold approach for inundation mapping:
                                 </p>
                                 <div class="equation">
-                                    RSL(x,y,t) = GMSL(t) + RF(x,y,t) + VLM(x,y,t)
+                                    Flooded = 1 if DEM_elevation ≤ Water_Level<br>
+                                    Flooded = 0 if DEM_elevation &gt; Water_Level
                                 </div>
                                 <p class="info-box__text">
                                     Where:
                                 </p>
                                 <ul class="info-box__list">
-                                    <li>RSL = Relative sea-level change</li>
-                                    <li>GMSL = Global mean sea-level change</li>
-                                    <li>RF = Regional fingerprint (spatial pattern)</li>
-                                    <li>VLM = Vertical land motion</li>
-                                    <li>x,y = Location coordinates</li>
-                                    <li>t = Time</li>
+                                    <li><strong>Water_Level</strong> = Global_SLR + Return_Level + Vertical_Offset</li>
+                                    <li><strong>Global_SLR</strong> = IPCC AR6 projection for selected scenario/year/quantile</li>
+                                    <li><strong>Return_Level</strong> = CODEC storm surge height (optional, for compound flooding)</li>
+                                    <li><strong>Vertical_Offset</strong> = User-defined adjustment (e.g., for subsidence)</li>
+                                    <li><strong>DEM_elevation</strong> = Terrain height from digital elevation model</li>
                                 </ul>
+                                <p class="info-box__text">
+                                    <strong>Gumbel Distribution for Extreme Sea Levels:</strong><br>
+                                    Return Level (T years) = μ - β × ln(-ln(1 - 1/T))<br>
+                                    where μ = location parameter, β = scale parameter
+                                </p>
                             </div>
                         </article>
 
@@ -275,32 +280,49 @@
 
                             <h3 class="content-block__subtitle">Vulnerability Assessment</h3>
                             <p class="content-block__text">
-                                Vulnerability is assessed across multiple dimensions:
+                                OSLRAT includes a Social Vulnerability Index (SVI) algorithm for assessing community resilience:
                             </p>
+
+                            <div class="info-box info-box--info">
+                                <h4 class="info-box__title">Social Vulnerability Index (SVI) Formula</h4>
+                                <div class="equation">
+                                    SVI = w_neg × mean(normalized_neg_indicators) + w_pos × mean(1 - normalized_pos_indicators)
+                                </div>
+                                <p class="info-box__text">
+                                    Where:
+                                </p>
+                                <ul class="info-box__list">
+                                    <li><strong>neg_indicators:</strong> Higher values = worse conditions (e.g., poverty%, unemployment%, elderly population%)</li>
+                                    <li><strong>pos_indicators:</strong> Higher values = better conditions (e.g., healthcare access%, education%, median income)</li>
+                                    <li><strong>Normalization:</strong> Min-max scaling to [0, 1] range within the dataset</li>
+                                    <li><strong>Weights:</strong> Default w_neg = 0.6, w_pos = 0.4 (user-configurable)</li>
+                                    <li><strong>Output:</strong> SVI score from 0 (low vulnerability) to 1 (high vulnerability)</li>
+                                </ul>
+                            </div>
 
                             <div class="vulnerability-factors">
                                 <div class="vulnerability-factor">
-                                    <h4 class="vulnerability-factor__title">Physical Vulnerability</h4>
+                                    <h4 class="vulnerability-factor__title">Physical Exposure</h4>
                                     <p class="vulnerability-factor__text">
-                                        Structural susceptibility to flooding, erosion, and saltwater intrusion
+                                        Area-based flood exposure analysis with polygon-level statistics (flooded area%, impact ratios)
+                                    </p>
+                                </div>
+                                <div class="vulnerability-factor">
+                                    <h4 class="vulnerability-factor__title">Population Impact</h4>
+                                    <p class="vulnerability-factor__text">
+                                        Population affected by inundation with distribution modes (simple or proportional by area)
                                     </p>
                                 </div>
                                 <div class="vulnerability-factor">
                                     <h4 class="vulnerability-factor__title">Social Vulnerability</h4>
                                     <p class="vulnerability-factor__text">
-                                        Community capacity to prepare for and respond to sea-level impacts
+                                        Composite SVI scores combining demographic, economic, and social factors
                                     </p>
                                 </div>
                                 <div class="vulnerability-factor">
-                                    <h4 class="vulnerability-factor__title">Economic Vulnerability</h4>
+                                    <h4 class="vulnerability-factor__title">Compound Risks</h4>
                                     <p class="vulnerability-factor__text">
-                                        Financial impacts on property, infrastructure, and economic activities
-                                    </p>
-                                </div>
-                                <div class="vulnerability-factor">
-                                    <h4 class="vulnerability-factor__title">Environmental Vulnerability</h4>
-                                    <p class="vulnerability-factor__text">
-                                        Impacts on coastal ecosystems and natural resources
+                                        Combined baseline SLR + storm surge return periods for comprehensive flood scenarios
                                     </p>
                                 </div>
                             </div>
@@ -401,6 +423,7 @@
                                         IPCC (2021). Climate Change 2021: The Physical Science Basis. Contribution
                                         of Working Group I to the Sixth Assessment Report of the Intergovernmental
                                         Panel on Climate Change. Cambridge University Press.
+                                        DOI: 10.1017/9781009157896
                                     </p>
                                 </div>
 
@@ -413,24 +436,30 @@
 
                                 <div class="reference">
                                     <p class="reference__citation">
-                                        Sweet, W.V., et al. (2022). Global and Regional Sea Level Rise Scenarios
-                                        for the United States: Updated Mean Projections and Extreme Water Level
-                                        Probabilities Along U.S. Coastlines. NOAA Technical Report NOS 01.
+                                        Dullaart, J. C. M., et al. (2020). Coastal Dataset for Evaluating Extremes
+                                        in Storm Surge and Total Water Level. Scientific Data, 7, 40.
+                                        DOI: 10.1038/s41597-020-0381-2
                                     </p>
                                 </div>
 
                                 <div class="reference">
                                     <p class="reference__citation">
-                                        Oppenheimer, M., et al. (2019). Sea Level Rise and Implications for
-                                        Low-Lying Islands, Coasts and Communities. IPCC Special Report on the
-                                        Ocean and Cryosphere in a Changing Climate.
+                                        European Commission (2021). Copernicus Digital Elevation Model (DEM).
+                                        Distributed via OpenTopography (https://opentopography.org/).
                                     </p>
                                 </div>
 
                                 <div class="reference">
                                     <p class="reference__citation">
-                                        Kopp, R.E., et al. (2014). Probabilistic 21st and 22nd century sea-level
-                                        projections at a global network of tide-gauge sites. Earth's Future, 2(8).
+                                        Coles, S. (2001). An Introduction to Statistical Modeling of Extreme Values.
+                                        Springer-Verlag. [Gumbel Distribution methodology]
+                                    </p>
+                                </div>
+
+                                <div class="reference">
+                                    <p class="reference__citation">
+                                        Flanagan, B. E., et al. (2011). A social vulnerability index for disaster
+                                        management. Journal of Homeland Security and Emergency Management, 8(1).
                                     </p>
                                 </div>
                             </div>
@@ -465,7 +494,7 @@
                                 For complete technical specifications and algorithm documentation, see our
                                 GitHub repository.
                             </p>
-                            <a href="https://github.com/yourusername/OSLRAT" class="btn btn--small btn--primary" target="_blank" rel="noopener">
+                            <a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool" class="btn btn--small btn--primary" target="_blank" rel="noopener">
                                 View on GitHub
                             </a>
                         </div>
@@ -518,7 +547,7 @@
                 <div class="footer__section">
                     <h4 class="footer__heading">Resources</h4>
                     <ul class="footer__links">
-                        <li><a href="https://github.com/yourusername/OSLRAT" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
+                        <li><a href="https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool" class="footer__link" target="_blank" rel="noopener">GitHub Repository</a></li>
                         <li><a href="contact.html" class="footer__link">Contact Us</a></li>
                         <li><a href="#" class="footer__link">API Documentation</a></li>
                         <li><a href="#" class="footer__link">Contribute</a></li>

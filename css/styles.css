@@ -243,6 +243,12 @@ p {
   line-height: var(--line-height-relaxed);
 }
 
+/* Heading on dark backgrounds - white and bold */
+.heading-on-dark-bg {
+  color: #FFFFFF;
+  font-weight: var(--font-weight-bold);
+}
+
 .text-primary {
   color: var(--color-primary);
 }
@@ -842,6 +848,9 @@ code {
   transform: translateY(-8px);
   border-color: rgba(0, 255, 255, 0.3);
   box-shadow: 0 8px 40px rgba(0, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .feature-card__icon-wrapper {
@@ -1000,6 +1009,9 @@ code {
 .use-case:hover {
   border-top-color: var(--color-neon-yellow);
   box-shadow: 0 8px 40px rgba(0, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .use-case__header {
@@ -1329,7 +1341,8 @@ code {
 .principle__title {
   font-size: var(--font-size-lg);
   margin-bottom: var(--space-xs);
-  color: var(--text-on-white);
+  color: #FFFFFF;
+  font-weight: var(--font-weight-bold);
 }
 
 .principle__text {
@@ -2472,7 +2485,9 @@ code {
 }
 
 .city-item:hover {
-  background: rgba(0, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .city-header {

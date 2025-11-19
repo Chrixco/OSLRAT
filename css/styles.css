@@ -2448,6 +2448,83 @@ code {
   line-height: 1.6;
 }
 
+.global-south-label {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transition: opacity 0.6s ease, color 1.5s ease;
+}
+
+/* Global South color flip animation */
+.city-item[data-global-south="true"] {
+  animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+             colorFlipGlobalSouth 1.5s ease 2s forwards;
+}
+
+.city-item[data-global-south="true"] .global-south-label {
+  animation: labelFadeIn 0.8s ease 2.5s forwards;
+}
+
+.city-item[data-global-south="true"] .city-stat {
+  animation: statColorFlip 1.5s ease 2s forwards;
+}
+
+.city-item[data-global-south="true"]::before {
+  animation: borderColorFlip 1.5s ease 2s forwards;
+}
+
+@keyframes colorFlipGlobalSouth {
+  0% {
+    background: #0a0a0a;
+  }
+  100% {
+    background: rgba(255, 107, 53, 0.08);
+    border: 1px solid rgba(255, 107, 53, 0.2);
+  }
+}
+
+@keyframes statColorFlip {
+  0% {
+    color: var(--color-neon-yellow);
+    text-shadow: 0 0 20px var(--color-neon-yellow-glow);
+  }
+  100% {
+    color: var(--color-accent);
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+  }
+}
+
+@keyframes borderColorFlip {
+  0% {
+    background: linear-gradient(to bottom, var(--color-neon-cyan), var(--color-neon-yellow));
+  }
+  100% {
+    background: linear-gradient(to bottom, var(--color-accent), var(--color-accent-dark));
+  }
+}
+
+@keyframes labelFadeIn {
+  0% {
+    opacity: 0;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+}
+
+/* Ensure city items are positioned for absolute label */
+.city-item {
+  position: relative;
+}
+
 /* ============================================================================
    DATA SOURCE CITATION
    ============================================================================ */

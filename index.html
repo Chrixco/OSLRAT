@@ -68,24 +68,24 @@
             <div class="hero__visualization">
                 <div class="viz-section interactive-viz">
                     <div class="viz-header">
-                        <span class="viz-label">IPCC AR6 — RCP 8.5 SCENARIO</span>
+                        <span class="viz-label">IPCC AR6 — SSP5-8.5 SCENARIO</span>
                         <div class="viz-stat">
-                            <span class="viz-number" id="current-slr">1.10</span>
-                            <span class="viz-unit">meters by <span id="current-year">2100</span></span>
+                            <span class="viz-number" id="current-cost">$14</span>
+                            <span class="viz-unit">trillion at risk by <span id="current-year">2100</span></span>
                         </div>
                     </div>
 
                     <!-- Interactive Chart Container -->
                     <div class="interactive-chart-container">
-                        <!-- Y-axis (SLR) -->
+                        <!-- Y-axis (Economic Cost) -->
                         <div class="chart-y-axis">
-                            <div class="axis-label">SLR (m)</div>
+                            <div class="axis-label">Economic Cost ($T)</div>
                             <div class="axis-ticks">
-                                <div class="axis-tick"><span>1.2</span></div>
-                                <div class="axis-tick"><span>0.9</span></div>
-                                <div class="axis-tick"><span>0.6</span></div>
-                                <div class="axis-tick"><span>0.3</span></div>
-                                <div class="axis-tick"><span>0.0</span></div>
+                                <div class="axis-tick"><span>$15T</span></div>
+                                <div class="axis-tick"><span>$11T</span></div>
+                                <div class="axis-tick"><span>$7T</span></div>
+                                <div class="axis-tick"><span>$3T</span></div>
+                                <div class="axis-tick"><span>$0</span></div>
                             </div>
                         </div>
 
@@ -94,8 +94,8 @@
                                 <!-- Info Panel -->
                                 <div class="chart-info-panel" id="infoPanel">
                                     <div class="info-panel-year" id="panelYear">2100</div>
-                                    <div class="info-panel-slr" id="panelSLR">+1.10m</div>
-                                    <div class="info-panel-impact" id="panelImpact">280M+ people at risk</div>
+                                    <div class="info-panel-slr" id="panelSLR">+0.84m SLR</div>
+                                    <div class="info-panel-impact" id="panelImpact">$14T economic loss</div>
                                 </div>
 
                                 <!-- Red danger overlay with organic shape -->
@@ -111,32 +111,32 @@
 
                                 <!-- Timeline markers -->
                             <div class="timeline-markers">
-                                <div class="timeline-marker" data-year="2030" data-slr="0.28" data-position="25">
+                                <div class="timeline-marker" data-year="2030" data-slr="0.15" data-position="8">
                                     <div class="marker-line"></div>
                                     <div class="marker-label">
                                         <span class="marker-year">2030</span>
-                                        <span class="marker-slr">0.28m</span>
+                                        <span class="marker-slr">0.15m</span>
                                     </div>
                                 </div>
-                                <div class="timeline-marker" data-year="2050" data-slr="0.51" data-position="45">
+                                <div class="timeline-marker" data-year="2050" data-slr="0.32" data-position="34">
                                     <div class="marker-line"></div>
                                     <div class="marker-label">
                                         <span class="marker-year">2050</span>
-                                        <span class="marker-slr">0.51m</span>
+                                        <span class="marker-slr">0.32m</span>
                                     </div>
                                 </div>
-                                <div class="timeline-marker" data-year="2075" data-slr="0.78" data-position="70">
+                                <div class="timeline-marker" data-year="2075" data-slr="0.56" data-position="67">
                                     <div class="marker-line"></div>
                                     <div class="marker-label">
                                         <span class="marker-year">2075</span>
-                                        <span class="marker-slr">0.78m</span>
+                                        <span class="marker-slr">0.56m</span>
                                     </div>
                                 </div>
-                                <div class="timeline-marker" data-year="2100" data-slr="1.10" data-position="100">
+                                <div class="timeline-marker" data-year="2100" data-slr="0.84" data-position="100">
                                     <div class="marker-line"></div>
                                     <div class="marker-label">
                                         <span class="marker-year">2100</span>
-                                        <span class="marker-slr">1.10m</span>
+                                        <span class="marker-slr">0.84m</span>
                                     </div>
                                 </div>
                             </div>
@@ -145,26 +145,26 @@
                             <div class="chart-base-fill"></div>
                             </div>
 
-                            <!-- X-axis (Years) -->
+                            <!-- X-axis (Sea Level Rise) -->
                             <div class="chart-x-axis">
-                                <div class="axis-label-x">IPCC AR6 (2021) — RCP 8.5 Scenario</div>
+                                <div class="axis-label-x">Sea Level Rise (meters) — IPCC AR6 SSP5-8.5</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="chart-instruction">
-                        <span>↔</span> Move your cursor to explore different sea level rise scenarios
+                        <span>↔</span> Move your cursor to explore economic impact at different sea level rise projections
                     </div>
 
                     <!-- Chart Legend -->
                     <div class="chart-legend">
                         <div class="legend-item">
                             <div class="legend-color" style="background: linear-gradient(to top, #ff0055, rgba(255, 0, 85, 0.3));"></div>
-                            <span class="legend-label">Sea Level Rise (SLR)</span>
+                            <span class="legend-label">Economic Cost (Trillions USD)</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-icon">📅</div>
-                            <span class="legend-label">Timeline: 2024 → 2100</span>
+                            <div class="legend-icon">📊</div>
+                            <span class="legend-label">SLR: 0.10m → 0.84m (2024-2100)</span>
                         </div>
                     </div>
                 </div>
@@ -370,13 +370,14 @@
                     </div>
 
                     <!-- Rank 2: Mumbai -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.2s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 0.2s;">
                         <div class="city-header">
                             <div class="city-name">Mumbai</div>
                             <div class="city-country">India</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="735">0</span>B</div>
                         <div class="city-description">Western India Coast. Second highest projected damages. Critical port infrastructure and dense population at risk.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 3: New Orleans -->
@@ -390,23 +391,25 @@
                     </div>
 
                     <!-- Rank 4: Guayaquil -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.4s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 0.4s;">
                         <div class="city-header">
                             <div class="city-name">Guayaquil</div>
                             <div class="city-country">Ecuador</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="413">0</span>B</div>
                         <div class="city-description">Pacific Coast. Ecuador's largest city. Major economic hub facing severe inundation risk by 2100.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 5: Alexandria -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.5s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 0.5s;">
                         <div class="city-header">
                             <div class="city-name">Alexandria</div>
                             <div class="city-country">Egypt</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="352">0</span>B</div>
                         <div class="city-description">Nile Delta. Historic Mediterranean port. 30% of delta agricultural land threatened by submersion.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 6: Shenzhen -->
@@ -420,13 +423,14 @@
                     </div>
 
                     <!-- Rank 7: Calcutta -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.7s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 0.7s;">
                         <div class="city-header">
                             <div class="city-name">Calcutta</div>
                             <div class="city-country">India</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="346">0</span>B</div>
                         <div class="city-description">Ganges Delta. 15 million people at risk. Low elevation and subsidence compound sea-level rise impacts.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 8: Osaka-Kobe -->
@@ -440,13 +444,14 @@
                     </div>
 
                     <!-- Rank 9: Bangkok -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 0.9s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 0.9s;">
                         <div class="city-header">
                             <div class="city-name">Bangkok</div>
                             <div class="city-country">Thailand</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="313">0</span>B</div>
                         <div class="city-description">Chao Phraya Delta. Rapid subsidence (2-3cm/year) plus SLR. 92% of city area at risk by 2100.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 10: Tokyo -->
@@ -490,23 +495,25 @@
                     </div>
 
                     <!-- Rank 14: Hai Phong -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 1.4s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 1.4s;">
                         <div class="city-header">
                             <div class="city-name">Hai Phong</div>
                             <div class="city-country">Vietnam</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="187">0</span>B</div>
                         <div class="city-description">Red River Delta. Northern Vietnam's major port. Critical industrial and shipping infrastructure at risk.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
 
                     <!-- Rank 15: Abidjan -->
-                    <div class="city-item" data-animate="fade-up" style="animation-delay: 1.5s;">
+                    <div class="city-item" data-animate="fade-up" data-global-south="true" style="animation-delay: 1.5s;">
                         <div class="city-header">
                             <div class="city-name">Abidjan</div>
                             <div class="city-country">Côte d'Ivoire</div>
                         </div>
                         <div class="city-stat">$<span class="counter" data-target="152">0</span>B</div>
                         <div class="city-description">West African Coast. Economic capital of Côte d'Ivoire. Rapid urbanization in flood-prone areas.</div>
+                        <div class="global-south-label">Global South</div>
                     </div>
                 </div>
 

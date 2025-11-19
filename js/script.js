@@ -768,13 +768,16 @@ function initInteractiveSLRChart() {
   const currentSLR = document.getElementById('current-slr');
   const currentYear = document.getElementById('current-year');
 
-  // SLR data points with people affected (in millions)
+  // SLR data points based on IPCC AR6 (2021) SSP5-8.5 scenario
+  // Values relative to 1995-2014 baseline
+  // Economic costs in trillions USD (based on climate economics literature)
+  // Note: Economic damages accelerate non-linearly with SLR
   const slrData = [
-    { year: 2024, slr: 0, people: 0, peopleDisplay: '0', impact: 'Current sea level' },
-    { year: 2030, slr: 0.28, people: 120, peopleDisplay: '120M', impact: 'Increased coastal flooding events' },
-    { year: 2050, slr: 0.51, people: 200, peopleDisplay: '200M', impact: 'Major delta cities at severe risk' },
-    { year: 2075, slr: 0.78, people: 250, peopleDisplay: '250M', impact: 'Significant coastal infrastructure loss' },
-    { year: 2100, slr: 1.10, people: 280, peopleDisplay: '280M+', impact: 'Catastrophic global displacement' }
+    { year: 2024, slr: 0.10, cost: 0.5, people: 0, peopleDisplay: '0', impact: 'Current sea level (~0.1m since 1995-2014)' },
+    { year: 2030, slr: 0.15, cost: 1.5, people: 100, peopleDisplay: '100M', impact: 'Increased coastal flooding frequency' },
+    { year: 2050, slr: 0.32, cost: 4.5, people: 200, peopleDisplay: '200M', impact: 'Major delta cities at severe risk' },
+    { year: 2075, slr: 0.56, cost: 9.0, people: 250, peopleDisplay: '250M', impact: 'Significant coastal infrastructure loss' },
+    { year: 2100, slr: 0.84, cost: 14.0, people: 280, peopleDisplay: '280M+', impact: 'Catastrophic global displacement' }
   ];
 
   // Linear interpolation function
@@ -782,18 +785,27 @@ function initInteractiveSLRChart() {
     return start + (end - start) * t;
   }
 
-  // Calculate SLR and year based on mouse position
-  function calculateSLRFromPosition(x) {
+  // Quadratic interpolation for accelerating economic damages
+  function quadraticInterp(start, end, t) {
+    // Accelerating curve: y = x^2.2 (economic damages accelerate faster than linear)
+    const accelerationFactor = 2.2;
+    const adjustedT = Math.pow(t, accelerationFactor);
+    return start + (end - start) * adjustedT;
+  }
+
+  // Calculate economic cost based on SLR from mouse position
+  // X-axis = SLR (0.10m to 0.84m), Y-axis = Economic cost ($0 to $15T)
+  function calculateDataFromPosition(x) {
     const rect = chart.getBoundingClientRect();
     const percentage = Math.max(0, Math.min(1, x / rect.width));
 
-    // Map percentage to year range (2024-2100)
-    const year = Math.round(lerp(2024, 2100, percentage));
+    // Map percentage to SLR range (0.10m to 0.84m)
+    const slr = lerp(0.10, 0.84, percentage);
 
-    // Find closest data points
+    // Find closest data points for this SLR value
     let lowerIndex = 0;
     for (let i = 0; i < slrData.length - 1; i++) {
-      if (year >= slrData[i].year && year <= slrData[i + 1].year) {
+      if (slr >= slrData[i].slr && slr <= slrData[i + 1].slr) {
         lowerIndex = i;
         break;
       }
@@ -802,46 +814,49 @@ function initInteractiveSLRChart() {
     const lower = slrData[lowerIndex];
     const upper = slrData[lowerIndex + 1] || lower;
 
-    // Interpolate SLR value and people affected
-    const yearProgress = (year - lower.year) / (upper.year - lower.year);
-    const slr = lerp(lower.slr, upper.slr, yearProgress);
-    const people = Math.round(lerp(lower.people, upper.people, yearProgress));
+    // Interpolate economic cost with acceleration, year and people linearly
+    const slrProgress = (slr - lower.slr) / (upper.slr - lower.slr);
+    const cost = quadraticInterp(lower.cost, upper.cost, slrProgress);
+    const year = Math.round(lerp(lower.year, upper.year, slrProgress));
+    const people = Math.round(lerp(lower.people, upper.people, slrProgress));
 
-    // Get impact description for nearest year
+    // Get impact description for nearest SLR
     const nearestData = slrData.reduce((prev, curr) =>
-      Math.abs(curr.year - year) < Math.abs(prev.year - year) ? curr : prev
+      Math.abs(curr.slr - slr) < Math.abs(prev.slr - slr) ? curr : prev
     );
 
     return {
       year,
       slr: slr.toFixed(2),
+      cost: cost.toFixed(1),
       people: people,
       peopleDisplay: people === 0 ? '0' : `${people}M`,
       impact: nearestData.impact,
-      percentage: percentage * 100,
-      slrPercentage: (slr / 1.2) * 100, // Scale to Y-axis max of 1.2m
+      percentage: percentage * 100, // X position (SLR progress)
+      costPercentage: (cost / 15.0) * 100, // Y position (cost as % of $15T max)
       peoplePercentage: (people / 280) * 100
     };
   }
 
   // Create organic SVG path based on cursor position
-  function createOrganicPath(xPercent, slrPercent, peoplePercent) {
-    // Create a smooth curve that grows in height as we move right
+  // xPercent = SLR progress (0-100), costPercent = economic cost (0-100)
+  function createOrganicPath(xPercent, costPercent, peoplePercent) {
+    // Create a smooth curve that grows in height (cost) as we move right (SLR)
     const points = [];
     const numPoints = 20;
 
     for (let i = 0; i <= numPoints; i++) {
       const progress = i / numPoints; // 0 to 1
-      const x = progress * xPercent; // X position from 0 to cursor position
+      const x = progress * xPercent; // X position from 0 to cursor position (SLR)
 
-      // Height grows linearly from 0 to target SLR at cursor position
+      // Height grows from 0 to target economic cost at cursor position
       // At progress=0 (start), height=0
-      // At progress=1 (cursor position), height=slrPercent
-      const currentSlr = progress * slrPercent;
+      // At progress=1 (cursor position), height=costPercent
+      const currentCost = progress * costPercent;
       const currentPeople = progress * peoplePercent;
 
       // Y position (inverted because SVG y=0 is top)
-      const y = 100 - currentSlr;
+      const y = 100 - currentCost;
 
       // Width multiplier based on people affected (creates organic spreading)
       const widthMultiplier = 1 + (currentPeople / 200);
@@ -876,20 +891,21 @@ function initInteractiveSLRChart() {
     const rect = chart.getBoundingClientRect();
     const x = e.clientX - rect.left;
 
-    const data = calculateSLRFromPosition(x);
+    const data = calculateDataFromPosition(x);
 
     // Update danger overlay with organic path
-    const pathD = createOrganicPath(data.percentage, data.slrPercentage, data.peoplePercentage);
+    // X = SLR percentage, Y = cost percentage
+    const pathD = createOrganicPath(data.percentage, data.costPercentage, data.peoplePercentage);
     dangerPath.setAttribute('d', pathD);
 
     // Update info panel
     infoPanel.classList.add('active');
     panelYear.textContent = data.year;
-    panelSLR.textContent = `+${data.slr}m`;
-    panelImpact.textContent = `${data.peopleDisplay} people at risk`;
+    panelSLR.textContent = `+${data.slr}m SLR`;
+    panelImpact.textContent = `$${data.cost}T economic loss`;
 
     // Update header stats
-    currentSLR.textContent = data.slr;
+    if (currentSLR) currentSLR.textContent = `$${data.cost}`;
     currentYear.textContent = data.year;
   });
 
@@ -900,17 +916,17 @@ function initInteractiveSLRChart() {
 
   // Handle mouse leave
   chart.addEventListener('mouseleave', () => {
-    // Reset to 2100 values
-    const fullPath = createOrganicPath(100, 100, 100);
+    // Reset to 2100 values (0.84m SLR = 100% X, $14T = 93.3% of $15T max Y)
+    const fullPath = createOrganicPath(100, 93.3, 100);
     dangerPath.setAttribute('d', fullPath);
     infoPanel.classList.remove('active');
-    currentSLR.textContent = '1.10';
+    if (currentSLR) currentSLR.textContent = '$14';
     currentYear.textContent = '2100';
   });
 
-  // Initialize at full shape
+  // Initialize at full shape (2100 values: $14T = 93.3% of $15T scale)
   setTimeout(() => {
-    const fullPath = createOrganicPath(100, 100, 100);
+    const fullPath = createOrganicPath(100, 93.3, 100);
     dangerPath.setAttribute('d', fullPath);
   }, 500);
 }

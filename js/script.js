@@ -1370,13 +1370,17 @@ function initLetterBackground() {
           bAccent = 255;
         }
 
-        const g = cell.shade;
-        const rGrey = g, gGrey = g, bGrey = g, aGrey = 0.35;
+        // Blue base color (cyan-tinted blue)
+        const blueIntensity = cell.shade / 255; // 0.6-0.8 range
+        const rBlue = Math.round(0 * blueIntensity);
+        const gBlue = Math.round(180 * blueIntensity);
+        const bBlue = Math.round(255 * blueIntensity);
+        const aBlue = 0.35;
         const aAccent = 1.0;
-        const r = Math.round(rGrey + (rAccent - rGrey) * finalInfluence);
-        const gCh = Math.round(gGrey + (gAccent - gGrey) * finalInfluence);
-        const b = Math.round(bGrey + (bAccent - bGrey) * finalInfluence);
-        const a = aGrey + (aAccent - aGrey) * finalInfluence;
+        const r = Math.round(rBlue + (rAccent - rBlue) * finalInfluence);
+        const gCh = Math.round(gBlue + (gAccent - gBlue) * finalInfluence);
+        const b = Math.round(bBlue + (bAccent - bBlue) * finalInfluence);
+        const a = aBlue + (aAccent - aBlue) * finalInfluence;
         matrixCtx.fillStyle = `rgba(${r}, ${gCh}, ${b}, ${a})`;
         matrixCtx.fillText(cell.ch, x, y);
       }

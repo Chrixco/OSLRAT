@@ -1672,7 +1672,47 @@ function initFeatureShowcase() {
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFeatureShowcase);
+  document.addEventListener('DOMContentLoaded', () => {
+    initFeatureShowcase();
+    initHamburgCarousel();
+    initDataVisCarousel();
+  });
 } else {
   initFeatureShowcase();
+  initHamburgCarousel();
+  initDataVisCarousel();
+}
+
+// Hamburg Carousel - Auto-rotating image carousel (1.2 second intervals)
+function initHamburgCarousel() {
+  const images = document.querySelectorAll('.hamburg-image');
+  if (!images.length) return;
+
+  let currentIndex = 0;
+
+  function showNextImage() {
+    images[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].classList.add('active');
+  }
+
+  // Change every 1.2 seconds as requested
+  setInterval(showNextImage, 1200);
+}
+
+// Data Visualization Carousel - Auto-rotating image carousel (1.3 second intervals)
+function initDataVisCarousel() {
+  const images = document.querySelectorAll('.datavis-image');
+  if (!images.length) return;
+
+  let currentIndex = 0;
+
+  function showNextImage() {
+    images[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].classList.add('active');
+  }
+
+  // Change every 1.3 seconds as requested
+  setInterval(showNextImage, 1300);
 }

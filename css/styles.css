@@ -4390,6 +4390,15 @@ code {
   font-weight: 700;
   color: var(--color-neon-cyan);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.feature-title i {
+  font-size: 2.5rem;
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 8px rgba(255, 208, 0, 0.5));
 }
 
 .feature-description {
@@ -4452,6 +4461,35 @@ code {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Data Visualization Carousel */
+.datavis-carousel {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+}
+
+.datavis-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.datavis-image:first-child {
+  position: relative;
+}
+
+.datavis-image.active {
+  opacity: 1;
+  z-index: 1;
 }
 
 @media (max-width: 968px) {

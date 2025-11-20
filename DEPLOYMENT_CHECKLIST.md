@@ -103,7 +103,7 @@ git init
 git add .
 git commit -m "Initial commit: OSLRAT website"
 git branch -M main
-git remote add origin https://github.com/yourusername/OSLRAT.git
+git remote add origin https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool.git
 git push -u origin main
 ```
 

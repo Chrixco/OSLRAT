@@ -45,7 +45,7 @@ OSLRAT/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/OSLRAT.git
+   git clone https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool.git
    cd OSLRAT
    ```
 
@@ -81,7 +81,7 @@ OSLRAT/
    git add .
    git commit -m "Initial commit: OSLRAT website"
    git branch -M main
-   git remote add origin https://github.com/yourusername/OSLRAT.git
+   git remote add origin https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool.git
    git push -u origin main
    ```
 
@@ -95,7 +95,7 @@ OSLRAT/
 3. **Update links**
 
    After deployment, update these URLs in your HTML files:
-   - GitHub repository links (currently set to `https://github.com/yourusername/OSLRAT`)
+   - GitHub repository links (currently set to `https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool`)
    - Open Graph URLs in meta tags
    - Any other project-specific links
 
@@ -400,7 +400,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or feedback:
 
-- GitHub Issues: [https://github.com/yourusername/OSLRAT/issues](https://github.com/yourusername/OSLRAT/issues)
+- GitHub Issues: [https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool/issues](https://github.com/Chrixco/OLSRAT_Open-Source-Sea-Level-Rise-Assessment-Tool/issues)
 - Website: Use the contact form at `/contact.html`
 - Email: your-email@example.com
 

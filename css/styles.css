@@ -1060,6 +1060,23 @@ code {
   margin-bottom: 0;
 }
 
+/* Feature card as clickable link */
+.feature-card--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.feature-card--link:hover .feature-card__title {
+  color: var(--color-neon-cyan);
+}
+
+.feature-card--link:hover .feature-card__icon-wrapper {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px var(--color-neon-cyan-glow);
+}
+
 /* Transparent blur variant for feature and use case cards */
 .feature-card--blur,
 .use-case--blur {
